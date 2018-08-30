@@ -1,0 +1,6 @@
+class GameSettings:
+    SCREEN_WIDTH = 800
+    SCREEN_HEIGHT = 500
+    SCREEN_SIZE = (SCREEN_WIDTH, SCREEN_HEIGHT)
+
+    LIGHT_RED = (130, 10, 80)
