@@ -12,6 +12,8 @@ class Player(pygame.sprite.Sprite):
         self.image = pygame.Surface([self.width, self.height])
         self.image.fill((gs.LIGHT_RED))
         self.rect = self.image.get_rect()
+        self.rect.x = 0
+        self.rect.y = gs.SCREEN_HEIGHT - self.height - 30
 
         self.name = name
         self.hp = 100
@@ -29,7 +31,15 @@ class Player(pygame.sprite.Sprite):
     def get_item(self, item):
         self.inventory.append(item)
 
+    def is_on_ground(self):
+        """Verifies if the player is on the ground. """
+        if self.rect.y == gs.SCREEN_HEIGHT - self.height - 30:
+            return True
+
+        return False
+
     def handle_keys(self):
+        """Handles user movement. """
         key = pygame.key.get_pressed()
 
         if key[pygame.K_RIGHT] or key[pygame.K_d]:
