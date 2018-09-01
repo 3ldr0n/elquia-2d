@@ -12,7 +12,15 @@ class Game:
         self.screen = pygame.display.set_mode(gs.SCREEN_SIZE)
 
     def _set_screen(self):
-        self.screen.fill((0, 0, 0))
+        self.screen.fill(gs.BACKGROUND)
+
+    def _draw_ground(self):
+        ground = pygame.rect.Rect(
+            (0, gs.SCREEN_HEIGHT-30, gs.SCREEN_WIDTH, 30))
+        pygame.draw.rect(self.screen, gs.BROWN, ground)
+
+        grass = pygame.rect.Rect((0, gs.SCREEN_HEIGHT-30, gs.SCREEN_WIDTH, 8))
+        pygame.draw.rect(self.screen, gs.GREEN, grass)
 
     def run(self):
         clock = pygame.time.Clock()
@@ -20,8 +28,9 @@ class Game:
         sprites = pygame.sprite.Group(player)
 
         while True:
-            clock.tick(30)
+            clock.tick(20)
             self._set_screen()
+            self._draw_ground()
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -33,6 +42,11 @@ class Game:
 
             if not player.is_on_ground():
                 player.rect.y += 5
+                player.set_falling_image()
+            else:
+                player.set_idle_image(player.rect.x, player.rect.y)
+
+            player.set_walking_image()
 
             if player.rect.y + player.height > gs.SCREEN_HEIGHT - 30:
                 player.rect.y = gs.SCREEN_HEIGHT - player.height - 30
