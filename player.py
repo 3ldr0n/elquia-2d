@@ -105,3 +105,6 @@ class Player(pygame.sprite.Sprite):
                 self.jumping = False
             else:
                 self.rect.y += 10
+
+        if 1 not in key:
+            self.set_idle_image(self.rect.x, self.rect.y)

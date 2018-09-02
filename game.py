@@ -43,12 +43,9 @@ class Game:
             if not player.is_on_ground():
                 player.rect.y += 5
                 player.set_falling_image()
-            else:
-                player.set_idle_image(player.rect.x, player.rect.y)
-
-            player.set_walking_image()
 
             if player.rect.y + player.height > gs.SCREEN_HEIGHT - 30:
                 player.rect.y = gs.SCREEN_HEIGHT - player.height - 30
 
+            pygame.event.pump()
             pygame.display.flip()
