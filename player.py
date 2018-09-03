@@ -81,6 +81,16 @@ class Player(pygame.sprite.Sprite):
 
         return False
 
+    def __jump(self):
+        max_jump_height = gs.SCREEN_HEIGHT - self.height - gs.GROUND_HEIGHT - 40
+        print(self.rect.y)
+        print(max_jump_height)
+        if self.rect.y > max_jump_height and self.jumping is False:
+            self.standing = False
+            self.jumping = True
+            self.__set_jumping_image()
+            self.rect.y -= 40
+
     def handle_keys(self):
         """Handles user movement. """
         key = pygame.key.get_pressed()
@@ -94,10 +104,7 @@ class Player(pygame.sprite.Sprite):
             self.rect.x -= 5
 
         if key[pygame.K_SPACE] or key[pygame.K_UP] or key[pygame.K_w]:
-            self.standing = False
-            self.jumping = True
-            self.__set_jumping_image()
-            self.rect.y -= 40
+            self.__jump()
 
         if key[pygame.K_DOWN] or key[pygame.K_s]:
             if self.is_on_ground():
