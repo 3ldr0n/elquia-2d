@@ -28,7 +28,11 @@ class Player(pygame.sprite.Sprite):
         self.max_jump_height = (gs.SCREEN_HEIGHT - self.height -
                                 gs.GROUND_HEIGHT - self.jump_height)
 
-    def set_idle_image(self, x, y):
+    def set_idle_image(self, x=None, y=None):
+        if x is None and y is None:
+            x = self.rect.x
+            y = self.rect.y
+
         self.image = pygame.image.load(os.path.join(
             gs.ASSETS, "maleBase/full/advnt_full.png")).convert_alpha()
         self.image.set_clip(pygame.Rect(
@@ -115,4 +119,4 @@ class Player(pygame.sprite.Sprite):
                 self.rect.y += 10
 
         if 1 not in key:
-            self.set_idle_image(self.rect.x, self.rect.y)
+            self.set_idle_image()

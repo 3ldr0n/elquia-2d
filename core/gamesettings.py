@@ -15,4 +15,6 @@ class GameSettings:
     GREEN = (37.6, 50.2, 22)
     BACKGROUND = (135, 206, 235)
 
-    ASSETS = os.path.join(os.path.dirname(__file__), "assets")
+    ASSETS = os.path.dirname(os.path.abspath(__file__))
+    ASSETS = ASSETS.split("core")[0]
+    ASSETS = os.path.join(ASSETS, "assets")
