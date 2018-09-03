@@ -65,10 +65,6 @@ class Game:
                 sprites.draw(self.screen)
                 player.handle_keys()
 
-                if not player.is_on_ground():
-                    player.rect.y += 5
-                    player.set_falling_image()
-
                 if player.rect.y + player.height > gs.SCREEN_HEIGHT - gs.GROUND_HEIGHT:
                     player.rect.y = gs.SCREEN_HEIGHT - player.height - gs.GROUND_HEIGHT
 
