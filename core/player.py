@@ -20,13 +20,6 @@ class Player(pygame.sprite.Sprite):
         self.mp = 100
         self.maxmp = 100
         self.inventory = []
-        self.standing = True
-        self.jumping = False
-        self.walking = False
-        self.jump_height = 40
-        # Calculates the max jump height on screen.
-        self.max_jump_height = (gs.SCREEN_HEIGHT - self.height -
-                                gs.GROUND_HEIGHT - self.jump_height)
 
     def set_idle_image(self, x=None, y=None):
         if x is None and y is None:
@@ -54,62 +47,31 @@ class Player(pygame.sprite.Sprite):
         rect.y = self.rect.y
         self.rect = rect
 
-    def __set_jumping_image(self):
-        self.image = pygame.image.load(os.path.join(
-            gs.ASSETS, "maleBase/full/advnt_full.png")).convert_alpha()
-        self.image.set_clip(pygame.Rect(225, 64, self.width, self.height))
-        self.image = self.image.subsurface(self.image.get_clip())
-        rect = self.image.get_rect()
-        rect.x = self.rect.x
-        rect.y = self.rect.y
-        self.rect = rect
-
-    def set_falling_image(self):
-        self.image = pygame.image.load(os.path.join(
-            gs.ASSETS, "maleBase/full/advnt_full.png")).convert_alpha()
-        self.image.set_clip(pygame.Rect(230, 260, self.width, self.height))
-        self.image = self.image.subsurface(self.image.get_clip())
-        rect = self.image.get_rect()
-        rect.x = self.rect.x
-        rect.y = self.rect.y
-        self.rect = rect
-
     def is_alive(self):
         return self.hp > 0
 
     def get_item(self, item):
         self.inventory.append(item)
 
-    def is_on_ground(self):
-        """Verifies if the player is on the ground. """
-        if self.rect.y == gs.SCREEN_HEIGHT - self.height - gs.GROUND_HEIGHT:
-            self.standing = True
-            self.jumping = False
-            return True
-
-        return False
-
     def handle_keys(self):
         """Handles user movement. """
         key = pygame.key.get_pressed()
 
         if key[pygame.K_RIGHT] or key[pygame.K_d]:
-            self.walking = True
             self.set_walking_image()
             self.rect.x += 5
 
         if key[pygame.K_LEFT] or key[pygame.K_a]:
+            self.set_walking_image()
             self.rect.x -= 5
 
         if key[pygame.K_SPACE] or key[pygame.K_UP] or key[pygame.K_w]:
+            self.set_walking_image()
             self.rect.y -= 5
 
         if key[pygame.K_DOWN] or key[pygame.K_s]:
-            if self.is_on_ground():
-                self.standing = True
-                self.jumping = False
-            else:
-                self.rect.y += 10
+            self.set_walking_image()
+            self.rect.y += 5
 
         if 1 not in key:
             self.set_idle_image()
