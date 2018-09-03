@@ -9,7 +9,7 @@ class Player(pygame.sprite.Sprite):
 
     def __init__(self, name):
         super().__init__()
-        self.width = gs.SCREEN_HEIGHT * (10/100)
+        self.width = 30
         self.height = 65
         self.set_idle_image(0, gs.SCREEN_HEIGHT -
                             self.height - gs.GROUND_HEIGHT)
@@ -36,7 +36,7 @@ class Player(pygame.sprite.Sprite):
         self.image = pygame.image.load(os.path.join(
             gs.ASSETS, "maleBase/full/advnt_full.png")).convert_alpha()
         self.image.set_clip(pygame.Rect(
-            0, 0, 30, 65))
+            0, 0, self.width, self.height))
         self.image = self.image.subsurface(self.image.get_clip())
         self.rect = self.image.get_rect()
         self.rect.x = x
@@ -47,7 +47,7 @@ class Player(pygame.sprite.Sprite):
             gs.ASSETS, "maleBase/full/advnt_full.png")).convert_alpha()
 
         self.image.set_clip(pygame.Rect(
-            130, 0, 30, 65))
+            130, 0, self.width, self.height))
         self.image = self.image.subsurface(self.image.get_clip())
         rect = self.image.get_rect()
         rect.x = self.rect.x
@@ -57,7 +57,7 @@ class Player(pygame.sprite.Sprite):
     def __set_jumping_image(self):
         self.image = pygame.image.load(os.path.join(
             gs.ASSETS, "maleBase/full/advnt_full.png")).convert_alpha()
-        self.image.set_clip(pygame.Rect(225, 65, 30, 65))
+        self.image.set_clip(pygame.Rect(225, 65, self.width, self.height))
         self.image = self.image.subsurface(self.image.get_clip())
         rect = self.image.get_rect()
         rect.x = self.rect.x
@@ -67,7 +67,7 @@ class Player(pygame.sprite.Sprite):
     def set_falling_image(self):
         self.image = pygame.image.load(os.path.join(
             gs.ASSETS, "maleBase/full/advnt_full.png")).convert_alpha()
-        self.image.set_clip(pygame.Rect(230, 260, 30, 65))
+        self.image.set_clip(pygame.Rect(230, 260, self.width, self.height))
         self.image = self.image.subsurface(self.image.get_clip())
         rect = self.image.get_rect()
         rect.x = self.rect.x
