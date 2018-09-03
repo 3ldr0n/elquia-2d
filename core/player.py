@@ -9,8 +9,8 @@ class Player(pygame.sprite.Sprite):
 
     def __init__(self, name):
         super().__init__()
-        self.width = 30
-        self.height = 65
+        self.width = 32
+        self.height = 64
         self.set_idle_image(0, gs.SCREEN_HEIGHT -
                             self.height - gs.GROUND_HEIGHT)
 
@@ -57,7 +57,7 @@ class Player(pygame.sprite.Sprite):
     def __set_jumping_image(self):
         self.image = pygame.image.load(os.path.join(
             gs.ASSETS, "maleBase/full/advnt_full.png")).convert_alpha()
-        self.image.set_clip(pygame.Rect(225, 65, self.width, self.height))
+        self.image.set_clip(pygame.Rect(225, 64, self.width, self.height))
         self.image = self.image.subsurface(self.image.get_clip())
         rect = self.image.get_rect()
         rect.x = self.rect.x
@@ -109,7 +109,8 @@ class Player(pygame.sprite.Sprite):
             self.rect.x -= 5
 
         if key[pygame.K_SPACE] or key[pygame.K_UP] or key[pygame.K_w]:
-            self.__jump()
+            # self.__jump()
+            self.rect.y -= 5
 
         if key[pygame.K_DOWN] or key[pygame.K_s]:
             if self.is_on_ground():

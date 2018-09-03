@@ -69,8 +69,8 @@ class Game:
                     player.rect.y += 5
                     player.set_falling_image()
 
-                if player.rect.y + player.height > gs.SCREEN_HEIGHT - 30:
-                    player.rect.y = gs.SCREEN_HEIGHT - player.height - 30
+                if player.rect.y + player.height > gs.SCREEN_HEIGHT - gs.GROUND_HEIGHT:
+                    player.rect.y = gs.SCREEN_HEIGHT - player.height - gs.GROUND_HEIGHT
 
             pygame.event.pump()
             pygame.display.flip()
