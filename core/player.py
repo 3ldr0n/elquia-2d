@@ -109,8 +109,7 @@ class Player(pygame.sprite.Sprite):
             self.rect.x -= 5
 
         if key[pygame.K_SPACE] or key[pygame.K_UP] or key[pygame.K_w]:
-            # self.__jump()
-            self.rect.y -= 5
+            self.__jump()
 
         if key[pygame.K_DOWN] or key[pygame.K_s]:
             if self.is_on_ground():
