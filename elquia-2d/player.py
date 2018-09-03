@@ -23,6 +23,10 @@ class Player(pygame.sprite.Sprite):
         self.standing = True
         self.jumping = False
         self.walking = False
+        self.jump_height = 40
+        # Calculates the max jump height on screen.
+        self.max_jump_height = (gs.SCREEN_HEIGHT - self.height -
+                                gs.GROUND_HEIGHT - self.jump_height)
 
     def set_idle_image(self, x, y):
         self.image = pygame.image.load(os.path.join(
@@ -82,10 +86,7 @@ class Player(pygame.sprite.Sprite):
         return False
 
     def __jump(self):
-        max_jump_height = gs.SCREEN_HEIGHT - self.height - gs.GROUND_HEIGHT - 40
-        print(self.rect.y)
-        print(max_jump_height)
-        if self.rect.y > max_jump_height and self.jumping is False:
+        if self.rect.y > self.max_jump_height and self.jumping is False:
             self.standing = False
             self.jumping = True
             self.__set_jumping_image()
