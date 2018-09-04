@@ -1,5 +1,3 @@
-# elquia-2d
+# Elzring
 
-Elquia em 2d.
-
-Jogo original: https://github.com/Nathy14/elquia
+RPG Top down game, inspired on the original legend of Zelda.
