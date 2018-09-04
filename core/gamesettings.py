@@ -13,7 +13,7 @@ class GameSettings:
     BLACK = (0, 0, 0)
     BROWN = (160, 82, 45)
     GREEN = (37.6, 50.2, 22)
-    BACKGROUND = (135, 206, 235)
+    BACKGROUND = BLACK
 
     ASSETS = os.path.dirname(os.path.abspath(__file__))
     ASSETS = ASSETS.split("core")[0]
