@@ -4,7 +4,6 @@ import pygame
 
 from enum import Enum
 
-from background import Background
 from player import Player
 from gamesettings import GameSettings as gs
 
@@ -26,7 +25,7 @@ class Game:
 
     def _draw_menu(self):
         font = pygame.font.SysFont(None, 100)
-        text = "Federação de élquia"
+        text = "Elzring"
         text = font.render(text, True, gs.LIGHT_RED)
         x = gs.SCREEN_WIDTH / 2 - text.get_rect().width / 2
         y = gs.SCREEN_HEIGHT / 2 - text.get_rect().height / 2 - 100
@@ -55,6 +54,15 @@ class Game:
             else:
                 characters_sprites.draw(self.screen)
                 player.handle_keys()
+
+                if player.rect.x >= gs.SCREEN_WIDTH - 25:
+                    player.rect.x = gs.SCREEN_WIDTH - 25
+
+                if player.rect.x <= gs.SCREEN_BORDER:
+                    player.rect.x = gs.SCREEN_BORDER
+
+                if player.rect.y <= gs.SCREEN_BORDER:
+                    player.rect.y = gs.SCREEN_BORDER
 
                 if player.rect.y + player.height > gs.SCREEN_HEIGHT:
                     player.rect.y = gs.SCREEN_HEIGHT - player.height
