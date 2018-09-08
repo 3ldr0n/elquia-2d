@@ -64,8 +64,8 @@ class Game:
                 if player.rect.y <= gs.SCREEN_BORDER:
                     player.rect.y = gs.SCREEN_BORDER
 
-                if player.rect.y + player.height > gs.SCREEN_HEIGHT:
-                    player.rect.y = gs.SCREEN_HEIGHT - player.height
+                if player.rect.y + player.height > gs.SCREEN_HEIGHT - gs.SCREEN_BORDER:
+                    player.rect.y = gs.SCREEN_HEIGHT - player.height - gs.SCREEN_BORDER
 
             pygame.event.pump()
             pygame.display.flip()
