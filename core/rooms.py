@@ -1,4 +1,4 @@
-import os
+# import os
 
 from enum import Enum
 
@@ -29,9 +29,14 @@ class OpeningRoom(Room):
     def __init__(self):
         super().__init__(Rooms.FIRST_ROOM, Rooms.SECOND_ROOM,
                          Rooms.THIRD_ROOM, Rooms.FOURTH_ROOM)
-        self.image = os.path.join(gs.ASSETS, "environment/wood_tileset.png")
-        self.image.set_clip(pygame.Rect(0, 0, 85, 95))
-        self.image = self.image.subsurface(self.image.get_clip())
-        self.rect = self.image.get_rect()
-        self.rect.x = 0
-        self.rect.y = 0
+        # self.image = os.path.join(gs.ASSETS, "environment/wood_tileset.png")
+        # self.image.set_clip(pygame.Rect(0, 0, 85, 95))
+        # self.image = self.image.subsurface(self.image.get_clip())
+
+    def draw(self, screen):
+        self.room_width = 768
+        self.room_height = 512
+        x_center = gs.SCREEN_WIDTH / 2 - self.room_width / 2
+        y_center = gs.SCREEN_HEIGHT / 2 - self.room_height / 2
+        pygame.draw.rect(screen, gs.WHITE, (x_center,
+                                            y_center, self.room_width, self.room_height))

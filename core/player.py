@@ -11,8 +11,10 @@ class Player(pygame.sprite.Sprite):
         super().__init__()
         self.width = 32
         self.height = 64
-        self.set_idle_image(0, gs.SCREEN_HEIGHT -
-                            self.height - gs.GROUND_HEIGHT)
+        self.spritesheet = pygame.image.load(os.path.join(
+            gs.ASSETS, "maleBase/full/advnt_full.png")).convert_alpha()
+        self.set_idle_image(
+            gs.SCREEN_BORDER, gs.SCREEN_HEIGHT - gs.SCREEN_BORDER)
 
         self.name = name
         self.hp = 100
@@ -31,22 +33,17 @@ class Player(pygame.sprite.Sprite):
             x = self.rect.x
             y = self.rect.y
 
-        self.image = pygame.image.load(os.path.join(
-            gs.ASSETS, "maleBase/full/advnt_full.png")).convert_alpha()
-        self.image.set_clip(pygame.Rect(
-            0, 0, self.width, self.height))
-        self.image = self.image.subsurface(self.image.get_clip())
+        self.spritesheet.set_clip(
+            pygame.Rect(0, 0, self.width, self.height))
+        self.image = self.spritesheet.subsurface(self.spritesheet.get_clip())
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
 
     def set_walking_image(self):
-        self.image = pygame.image.load(os.path.join(
-            gs.ASSETS, "maleBase/full/advnt_full.png")).convert_alpha()
-
-        self.image.set_clip(pygame.Rect(
+        self.spritesheet.set_clip(pygame.Rect(
             130, 0, self.width, self.height))
-        self.image = self.image.subsurface(self.image.get_clip())
+        self.image = self.spritesheet.subsurface(self.spritesheet.get_clip())
         rect = self.image.get_rect()
         rect.x = self.rect.x
         rect.y = self.rect.y

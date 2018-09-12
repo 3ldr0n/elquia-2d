@@ -2,8 +2,8 @@ import os
 
 
 class GameSettings:
-    SCREEN_WIDTH = 800
-    SCREEN_HEIGHT = 500
+    SCREEN_WIDTH = 1024
+    SCREEN_HEIGHT = 768
     SCREEN_SIZE = (SCREEN_WIDTH, SCREEN_HEIGHT)
     SCREEN_BORDER = 5
 
@@ -14,6 +14,7 @@ class GameSettings:
     BLACK = (0, 0, 0)
     BROWN = (160, 82, 45)
     GREEN = (37.6, 50.2, 22)
+    LIGHT_GREY = (128, 128, 128)
     BACKGROUND = BLACK
 
     ASSETS = os.path.dirname(os.path.abspath(__file__))
