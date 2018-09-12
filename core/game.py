@@ -50,6 +50,7 @@ class Game:
         clock = pygame.time.Clock()
         player = Player("Eldron")
         characters_sprites = pygame.sprite.Group(player)
+        rooms_sprites = pygame.sprite.Group()
         room = OpeningRoom()
 
         while True:
@@ -69,20 +70,11 @@ class Game:
                     self.state = GameStates.PLAYING
             elif self.state == GameStates.PLAYING:
                 room.draw(self.screen)
+                rooms_sprites.draw(self.screen)
                 characters_sprites.draw(self.screen)
                 player.handle_keys()
 
-                if player.rect.x >= gs.SCREEN_WIDTH - 25:
-                    player.rect.x = gs.SCREEN_WIDTH - 25
-
-                if player.rect.x <= gs.SCREEN_BORDER:
-                    player.rect.x = gs.SCREEN_BORDER
-
-                if player.rect.y <= gs.SCREEN_BORDER:
-                    player.rect.y = gs.SCREEN_BORDER
-
-                if player.rect.y + player.height > gs.SCREEN_HEIGHT - gs.SCREEN_BORDER:
-                    player.rect.y = gs.SCREEN_HEIGHT - player.height - gs.SCREEN_BORDER
+                player.check_border()
 
             pygame.event.pump()
             pygame.display.flip()

@@ -2,6 +2,7 @@ import os
 
 import pygame
 
+from rooms import Rooms
 from gamesettings import GameSettings as gs
 
 
@@ -22,6 +23,7 @@ class Player(pygame.sprite.Sprite):
         self.mp = 100
         self.maxmp = 100
         self.inventory = []
+        self.current_room = Rooms.FIRST_ROOM
 
     def set_idle_image(self, x=None, y=None):
         """Set the player's idle image.
@@ -57,6 +59,19 @@ class Player(pygame.sprite.Sprite):
 
         """
         return self.hp > 0
+
+    def check_border(self):
+        if self.rect.x >= gs.SCREEN_WIDTH - 25:
+            self.rect.x = gs.SCREEN_WIDTH - 25
+
+        if self.rect.x <= gs.SCREEN_BORDER:
+            self.rect.x = gs.SCREEN_BORDER
+
+        if self.rect.y <= gs.SCREEN_BORDER:
+            self.rect.y = gs.SCREEN_BORDER
+
+        if self.rect.y + self.height > gs.SCREEN_HEIGHT - gs.SCREEN_BORDER:
+            self.rect.y = gs.SCREEN_HEIGHT - self.height - gs.SCREEN_BORDER
 
     def get_item(self, item):
         self.inventory.append(item)
