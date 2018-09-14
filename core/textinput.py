@@ -3,17 +3,33 @@ import pygame
 from gamesettings import GameSettings as gs
 
 
-class TextInput:
+class TextInput(pygame.sprite.Sprite):
 
-    def __init__(self):
-        pass
+    def __init__(self, x, y, width, height):
+        self.x = x
+        self.y = y
+        self.width = width
+        self.height = height
+        self.rect = pygame.Rect(x, y, self.width, self.height)
+        self.font = pygame.font.SysFont(None, self.height//2)
+        self.text = ""
+
+    def update_text(self, events):
+        for event in events:
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RETURN:
+                    return
+                elif event.key == pygame.K_BACKSPACE:
+                    self.text = self.text[:-1]
+                else:
+                    self.text += event.unicode
 
     def draw(self, screen):
-        x_mid = gs.SCREEN_WIDTH / 2 - 300
-        y_mid_lower = gs.SCREEN_HEIGHT / 2 - 100
-        font = pygame.font.SysFont(None, 85)
-        text = ""
-        pygame.draw.rect(screen, gs.WHITE, (x_mid, y_mid_lower, 300, 100))
+        pygame.draw.rect(screen, gs.WHITE, self.rect)
+        rendered = self.font.render(self.text, True, gs.LIGHT_RED)
+        print(rendered.get_rect().height)
+        screen.blit(rendered, (self.x//2, (self.y // 2) +
+                               rendered.get_rect().height))
 
-    def get_text(self):
-        pass
+    def get_input(self):
+        return self.text
