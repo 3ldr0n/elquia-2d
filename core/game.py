@@ -16,6 +16,7 @@ class GameStates(Enum):
     PLAYING = 3
     INSTRUCTIONS = 4
     ABOUT = 5
+    QUIT = 6
 
 
 class Game:
