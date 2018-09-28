@@ -18,11 +18,13 @@ class TextInput(pygame.sprite.Sprite):
         for event in events:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_RETURN:
-                    return
+                    return True
                 elif event.key == pygame.K_BACKSPACE:
                     self.text = self.text[:-1]
+                    return False
                 else:
                     self.text += event.unicode
+                    return False
 
     def draw(self, screen):
         pygame.draw.rect(screen, gs.WHITE, self.rect)

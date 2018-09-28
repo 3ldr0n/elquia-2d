@@ -1,3 +1,4 @@
+import os
 import sys
 
 import pygame
@@ -20,60 +21,68 @@ class GameStates(Enum):
 class Game:
 
     def __init__(self):
+        pygame.init()
+        pygame.display.set_caption("Elzring")
         self.screen = pygame.display.set_mode(gs.SCREEN_SIZE)
         self.state = GameStates.START_MENU
+        self.clock = pygame.time.Clock()
+        self.FPS = 30
 
     def _set_screen(self):
         self.screen.fill(gs.BACKGROUND)
 
+    def draw_grid(self):
+        for x in range(0, gs.SCREEN_WIDTH, gs.TILESIZE):
+            pygame.draw.line(self.screen, gs.LIGHT_GREY,
+                             (x, 0), (x, gs.SCREEN_HEIGHT))
+
+        for y in range(0, gs.SCREEN_HEIGHT, gs.TILESIZE):
+            pygame.draw.line(self.screen, gs.LIGHT_GREY,
+                             (0, y), (gs.SCREEN_WIDTH, y))
+
     def _draw_menu(self):
-        font = pygame.font.SysFont(None, 100)
+        terminus = os.path.join(gs.ASSETS, "fonts/arcadeclassic.ttf")
+        font = pygame.font.Font(terminus, 200)
         text = "Elzring"
         text = font.render(text, True, gs.LIGHT_RED)
         x = gs.SCREEN_WIDTH / 2 - text.get_rect().width / 2
         y = gs.SCREEN_HEIGHT / 2 - text.get_rect().height / 2 - 150
         self.screen.blit(text, (x, y))
 
-        x = gs.SCREEN_WIDTH / 2 - text.get_rect().width
+        x = gs.SCREEN_WIDTH / 2 - gs.TILESIZE*15 / 2
+        y = gs.SCREEN_HEIGHT / 2 - gs.TILESIZE*3 / 2
         pygame.draw.rect(self.screen, gs.LIGHT_GREY,
-                         (x, y+150, text.get_rect().width*2, 70))
-
-        mouse_x_pos = pygame.mouse.get_pos()[0]
-        mouse_y_pos = pygame.mouse.get_pos()[1]
-
-        if (mouse_x_pos >= x and mouse_x_pos < x+text.get_rect().width*2
-                and mouse_y_pos >= y+150 and mouse_y_pos <= y+220):
-            if pygame.mouse.get_pressed()[0]:
-                self.state = GameStates.PLAYING
+                         (x, y, gs.TILESIZE*15, gs.TILESIZE*3))
 
     def run(self):
-        clock = pygame.time.Clock()
-        player = Player("Eldron")
+        player = Player()
         characters_sprites = pygame.sprite.Group(player)
-        rooms_sprites = pygame.sprite.Group()
-        room = OpeningRoom()
+        o = OpeningRoom()
+        rooms_sprites = pygame.sprite.Group(o)
 
         while True:
-            clock.tick(20)
+            self.clock.tick(self.FPS)
             self._set_screen()
+            self.draw_grid()
+            events = pygame.event.get()
 
-            for event in pygame.event.get():
+            for event in events:
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
 
             if self.state == GameStates.START_MENU:
                 self._draw_menu()
-                key = pygame.key.get_pressed()
 
-                if key[pygame.K_RETURN]:
-                    self.state = GameStates.PLAYING
+                for event in events:
+                    if event.type == pygame.KEYDOWN:
+                        if event.key == pygame.K_RETURN:
+                            self.state = GameStates.PLAYING
             elif self.state == GameStates.PLAYING:
-                room.draw(self.screen)
                 rooms_sprites.draw(self.screen)
                 characters_sprites.draw(self.screen)
-                player.handle_keys()
 
+                player.handle_keys()
                 player.check_border()
 
             pygame.event.pump()

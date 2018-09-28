@@ -7,6 +7,8 @@ class GameSettings:
     SCREEN_SIZE = (SCREEN_WIDTH, SCREEN_HEIGHT)
     SCREEN_BORDER = 0
     TILESIZE = 32
+    GRID_WIDTH = SCREEN_WIDTH / TILESIZE
+    GRID_HEIGHT = SCREEN_HEIGHT / TILESIZE
 
     # Aliases
     BORDER = SCREEN_BORDER
@@ -21,6 +23,7 @@ class GameSettings:
     LIGHT_GREY = (128, 128, 128)
     BACKGROUND = BLACK
 
-    ASSETS = os.path.dirname(os.path.abspath(__file__))
-    ASSETS = ASSETS.split("core")[0]
-    ASSETS = os.path.join(ASSETS, "assets")
+    BASE_FOLDER = os.path.dirname(os.path.abspath(__file__))
+    BASE_FOLDER = BASE_FOLDER.split("core")[0]
+    ASSETS = os.path.join(BASE_FOLDER, "assets")
+    MAP = os.path.join(BASE_FOLDER, "map")

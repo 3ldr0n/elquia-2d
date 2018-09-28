@@ -5,21 +5,15 @@ from gamesettings import GameSettings as gs
 
 class Item(pygame.sprite.Sprite):
 
-    def __init__(self, name, value):
+    def __init__(self, name, value, description):
         super().__init__()
         self.name = name
         self.value = value
+        self.description = description
 
 
 class Weapon(Item):
 
-    def __init__(self, name, value, damage, description):
-        super().__init__(name, value)
+    def __init__(self, name, value, description, damage):
+        super().__init__(name, value, description)
         self.base_damage = damage
-        self.description = description
-
-
-class IronSword(Weapon):
-
-    def __init__(self):
-        super().__init__("Iron Sword", 10, 15, "Not so sharp")
