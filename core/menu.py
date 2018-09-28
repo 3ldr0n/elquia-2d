@@ -33,6 +33,7 @@ class Menu:
         self.button_width = 372
         self.button_height = 115
         self.gap_constant = 17
+        self.game_state = GameStates.START_MENU
 
     def set_buttons(self):
         self.buttons.set_clip(pygame.Rect(
@@ -52,14 +53,15 @@ class Menu:
             0, 3*(self.button_height + self.gap_constant), self.button_width, self.button_height))
         self.button_quit = self.buttons.subsurface(self.buttons.get_clip())
 
+        x = gs.SCREEN_WIDTH/2 - self.button_width/2
         self.screen.blit(self.button_play,
-                         (gs.SCREEN_HEIGHT/2, gs.SCREEN_WIDTH/5))
-        self.screen.blit(self.button_instructions, (gs.SCREEN_HEIGHT/2,
-                                                    self.gap_constant + self.button_height + gs.SCREEN_WIDTH/5))
-        self.screen.blit(self.button_credits, (gs.SCREEN_HEIGHT/2,
-                                               2*(self.button_height + 17) + gs.SCREEN_WIDTH/5))
-        self.screen.blit(self.button_quit, (gs.SCREEN_HEIGHT/2,
-                                            3*(self.button_height + 17) + gs.SCREEN_WIDTH/5))
+                         (x, gs.SCREEN_HEIGHT/5))
+        self.screen.blit(self.button_instructions, (x,
+                                                    self.gap_constant + self.button_height + gs.SCREEN_HEIGHT/5))
+        self.screen.blit(self.button_credits, (x,
+                                               2*(self.button_height + 17) + gs.SCREEN_HEIGHT/5))
+        self.screen.blit(self.button_quit, (x,
+                                            3*(self.button_height + 17) + gs.SCREEN_HEIGHT/5))
         pygame.display.flip()
 
     def run(self):
@@ -71,60 +73,43 @@ class Menu:
         mouse_pos_x = mouse_position[0]
         mouse_pos_y = mouse_position[1]
 
-        
         if pygame.mouse.get_pressed()[0]:
-            print("clickou lek")
-            if mouse_pos_x >= gs.SCREEN_WIDTH/2 and mouse_pos_x <= gs.SCREEN_WIDTH + self.button_width:
-                # PLAY
-                if mouse_pos_y >= gs.SCREEN_HEIGHT/5 and mouse_pos_y <= gs.SCREEN_HEIGHT + self.button_height:
-                    game_state = GameStates.PLAYING
-                    print("JOGANDO")
-                # INSTRUCTIONS
-                elif mouse_pos_y >= gs.SCREEN_HEIGHT/5 and mouse_pos_y <= self.gap_constant + self.button_height + gs.SCREEN_WIDTH/5:
-                    game_state = GameStates.INSTRUCTIONS
-                    print("INSTRUCOES")
-                # CREDITS
-                elif mouse_pos_y >= 2*(self.button_height+self.gap_constant) + gs.SCREEN_HEIGHT/5 and mouse_pos_y <= 2*(self.button_height + 17) + gs.SCREEN_WIDTH/5:
-                    game_state = GameStates.ABOUT
-                    print("CREDITOS")
-                # QUIT
-                elif mouse_pos_y >= 3*(self.button_height+self.gap_constant) + gs.SCREEN_HEIGHT/5 and mouse_pos_y <= 3*(self.button_height + 17) + gs.SCREEN_WIDTH/5:
-                    game_state = GameStates.QUIT
-                    print("SAIR")
+            if self.game_state == GameStates.START_MENU:
+                if mouse_pos_x >= (gs.SCREEN_WIDTH/2-self.button_width/2) and mouse_pos_x <= gs.SCREEN_WIDTH + self.button_width:
+                    if (mouse_pos_y >= gs.SCREEN_HEIGHT/5
+                            and mouse_pos_y <= gs.SCREEN_HEIGHT/5 + self.button_height):
+                        self.game_state = GameStates.PLAYING
+                    elif (mouse_pos_y >= gs.SCREEN_HEIGHT/5 + self.button_height + self.gap_constant
+                          and mouse_pos_y <= self.gap_constant + 2*self.button_height + gs.SCREEN_HEIGHT/5):
+                        self.game_state = GameStates.INSTRUCTIONS
+                        # CREDITS
+                    elif (mouse_pos_y >= 2*(self.button_height+self.gap_constant) + gs.SCREEN_HEIGHT/5
+                          and mouse_pos_y <= 3*(self.button_height + self.gap_constant) + gs.SCREEN_HEIGHT/5):
+                        self.game_state = GameStates.ABOUT
+                        # QUIT
+                    elif (mouse_pos_y >= 3*(self.button_height+self.gap_constant) + gs.SCREEN_HEIGHT/5
+                          and mouse_pos_y <= 3*(2*self.button_height + 2*self.gap_constant) + gs.SCREEN_HEIGHT/5):
+                        pygame.quit()
+                        sys.exit()
 
-        for event in pygame.event.get():
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_ESCAPE:
-                    self.running = False
+                    elif self.game_state != GameStates.START_MENU:
+                        self.game_stateGameStates.START_MENU
+            elif self.game_state == GameStates.INSTRUCTIONS:
+                self.set_instructions()
+            elif self.game_state == GameStates.ABOUT:
+                self.set_about()
 
-                elif event.key == pygame.K_UP:
-                    if self.counter > 0:
-                        self.counter -= 1
-                elif event.key == pygame.K_DOWN:
-                    if self.counter < 3:
-                        self.counter += 1
+        pygame.display.flip()
 
-                elif event.key == pygame.K_SPACE or event.key == pygame.K_RETURN:
+    def set_instructions(self):
+        instructions = pygame.image.load(
+            os.path.join(gs.ASSETS, "images/instrucoes.bmp"))
+        self.screen.blit(instructions, (0, 0))
 
-                    # ENTER THE GAME
-                    if self.counter == 0:
-                        self.running = False
-                        game_state = GameStates.PLAYING
-                        # CALL GAME FUNCTION  game.run() ?????
-
-                    # ENTER THE INSTRUCTIONS SCREEN
-                    elif self.counter == 1:
-                        game_state = GameStates.INSTRUCTIONS
-                        # CALL INSTRUCTIONS FUNCTION
-
-                    # ENTER THE CREDITS SCREEN
-                    elif self.counter == 2:
-                        game_state = GameStates.ABOUT
-                        # CALL ABOUT FUNCTION
-
-                    # QUIT
-                    elif self.counter == 3:
-                        self.running = False
+    def set_about(self):
+        about = pygame.image.load(os.path.join(
+            gs.ASSETS, "images/creditos.bmp"))
+        self.screen.blit(about, (0, 0))
 
     def draw(self):
 
@@ -137,18 +122,8 @@ class Menu:
 
         pygame.display.flip()
 
-        while self.running:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    self.running = False
-                    pygame.quit()
-                    sys.exit()
-                elif event.type == KEYDOWN:
-                    if event.key == K_ESCAPE:
-                        self.running = False
-                        pygame.display.quit()
-
 
 menu = Menu()
 
-menu.run()
+while True:
+    menu.run()
