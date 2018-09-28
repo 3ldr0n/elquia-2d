@@ -1,4 +1,5 @@
 import pygame
+import sys
 
 from pygame.locals import *
 from gamesettings import GameSettings as gs
@@ -70,8 +71,9 @@ class Menu:
     def draw(self):
         
         self.screen.blit(self.background, (0, 0))
+        
         for i in range(len(self.menu_items)):
-            self.screen.blit(self.menu_items[i], (200, 100 + i * 80))
+            self.screen.blit(self.menu_items[i], (gs.SCREEN_HEIGHT/2, gs.SCREEN_HEIGHT/4 + i * 110))
 
         pygame.display.flip()
 
