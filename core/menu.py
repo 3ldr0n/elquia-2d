@@ -19,6 +19,7 @@ class Menu:
         self.gap = 17
         self.button_x_begin = (gs.SCREEN_WIDTH/3)
         self.button_x_end = (gs.SCREEN_WIDTH/3)+(self.b_width)
+        self.menu_mode = True
 
     def set_buttons(self):
 
@@ -60,18 +61,31 @@ class Menu:
                         if mouse_pos_y >= gs.SCREEN_HEIGHT/5 and mouse_pos_y <= gs.SCREEN_HEIGHT/5 + self.b_height:
                             print("JOGAR")
                             print(mouse_position)
+                            
                         # INSTRUCTIONS BUTTON CLICK
                         elif mouse_pos_y >= 2*gs.SCREEN_HEIGHT/5 and mouse_pos_y <= 2*gs.SCREEN_HEIGHT/5 + self.b_height:
                             print("INSTRUCOES")
                             print(mouse_position)
+                            if self.menu_mode:
+                                self.menu_mode = False
+                                self.background = pygame.image.load('../assets/images/instrucoes.bmp').convert()
                         # CREDITS BUTTON CLICK
                         elif mouse_pos_y >= 3*gs.SCREEN_HEIGHT/5 and mouse_pos_y <= 3*gs.SCREEN_HEIGHT/5 + self.b_height:
                             print("CREDITOS")
                             print(mouse_position)
+                            if self.menu_mode:
+                                self.menu_mode = False
+                                self.background = pygame.image.load('../assets/images/creditos.bmp').convert()
                         # QUIT BUTTON CLICK
                         elif mouse_pos_y >= 4*gs.SCREEN_HEIGHT/5 and mouse_pos_y <= 4*gs.SCREEN_HEIGHT/5 + self.b_height:
                             print("SAIR")
                             print(mouse_position)
+                            pygame.quit()
+                            sys.exit()
+                        
+                    elif not self.menu_mode:
+                        self.background = pygame.image.load('../assets/images/background.bmp').convert()
+                        self.menu_mode = True
 
                 if event.type == pygame.QUIT:
                     running = False
@@ -79,15 +93,16 @@ class Menu:
                     
                     if event.key == pygame.K_ESCAPE:
                         running = False
-                        print("AE KRALHO")
-
+                
 
             self.draw()
 
     
     def draw(self):
         self.screen.blit(self.background, (0, 0))
-        self.set_buttons()
+        if self.menu_mode:
+            self.set_buttons()
+        
         pygame.display.flip()
         
 
