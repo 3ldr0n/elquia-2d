@@ -1,4 +1,3 @@
-import os
 import sys
 
 import pygame
@@ -41,25 +40,9 @@ class Game:
             pygame.draw.line(self.screen, gs.LIGHT_GREY,
                              (0, y), (gs.SCREEN_WIDTH, y))
 
-    def _draw_menu(self):
-        terminus = os.path.join(gs.ASSETS, "fonts/arcadeclassic.ttf")
-        font = pygame.font.Font(terminus, 200)
-        text = "Elzring"
-        text = font.render(text, True, gs.LIGHT_RED)
-        x = gs.SCREEN_WIDTH / 2 - text.get_rect().width / 2
-        y = gs.SCREEN_HEIGHT / 2 - text.get_rect().height / 2 - 150
-        self.screen.blit(text, (x, y))
-
-        x = gs.SCREEN_WIDTH / 2 - gs.TILESIZE*15 / 2
-        y = gs.SCREEN_HEIGHT / 2 - gs.TILESIZE*3 / 2
-        pygame.draw.rect(self.screen, gs.LIGHT_GREY,
-                         (x, y, gs.TILESIZE*15, gs.TILESIZE*3))
-
     def run(self):
         player = Player()
         characters_sprites = pygame.sprite.Group(player)
-        o = OpeningRoom()
-        rooms_sprites = pygame.sprite.Group(o)
 
         while True:
             self.clock.tick(self.FPS)
@@ -73,14 +56,11 @@ class Game:
                     sys.exit()
 
             if self.state == GameStates.START_MENU:
-                self._draw_menu()
-
                 for event in events:
                     if event.type == pygame.KEYDOWN:
                         if event.key == pygame.K_RETURN:
                             self.state = GameStates.PLAYING
             elif self.state == GameStates.PLAYING:
-                rooms_sprites.draw(self.screen)
                 characters_sprites.draw(self.screen)
 
                 player.handle_keys()
