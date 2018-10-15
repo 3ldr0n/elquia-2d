@@ -1,8 +1,8 @@
-import pygame
 import os
 import sys
 
-from pygame.locals import *
+import pygame
+
 from gamesettings import GameSettings as gs
 from gamesettings import GameStates
 
@@ -61,8 +61,7 @@ class Menu:
     def run(self, game):
         """Sets the mouse position for buttons and change game state.
 
-        Arguments:
-            {Game} game - A game object to change its state.
+        :param game: A game object to change the game state.
         """
 
         mouse_position = pygame.mouse.get_pos()

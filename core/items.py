@@ -17,3 +17,7 @@ class Weapon(Item):
     def __init__(self, name, value, description, damage):
         super().__init__(name, value, description)
         self.base_damage = damage
+
+
+class Inventory:
+    pass
