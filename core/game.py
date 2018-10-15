@@ -47,7 +47,7 @@ class Game:
                     sys.exit()
 
             if self.state == GameStates.START_MENU:
-                menu.run(events)
+                menu.run(self)
 
                 for event in events:
                     if event.type == pygame.KEYDOWN:

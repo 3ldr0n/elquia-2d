@@ -36,5 +36,5 @@ class GameStates(Enum):
     PAUSED = 2
     PLAYING = 3
     INSTRUCTIONS = 4
-    ABOUT = 5
+    CREDITS = 5
     QUIT = 6
