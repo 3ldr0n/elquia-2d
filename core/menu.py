@@ -4,6 +4,7 @@ import sys
 
 from pygame.locals import *
 from gamesettings import GameSettings as gs
+from gamesettings import GameStates
 
 
 class Menu:
@@ -45,6 +46,7 @@ class Menu:
         self.quit_button = self.buttons.subsurface(self.buttons.get_clip())
 
     def draw_buttons(self):
+        self.__set_buttons()
         self.screen.blit(self.play_button,
                          (gs.SCREEN_WIDTH/3, gs.SCREEN_HEIGHT/5))
         self.screen.blit(self.instructions_button,
@@ -54,66 +56,49 @@ class Menu:
         self.screen.blit(self.quit_button,
                          (gs.SCREEN_WIDTH/3, 4*gs.SCREEN_HEIGHT/5))
 
-    def run(self):
-        running = True
-        while running:
-            for event in pygame.event.get():
-                mouse_position = pygame.mouse.get_pos()
-                mouse_pos_x = mouse_position[0]
-                mouse_pos_y = mouse_position[1]
+    def run(self, events):
+        for event in events:
+            mouse_position = pygame.mouse.get_pos()
+            mouse_pos_x = mouse_position[0]
+            mouse_pos_y = mouse_position[1]
 
-                if pygame.mouse.get_pressed()[0]:
-                    if (mouse_pos_x >= self.button_x_begin and
-                            mouse_pos_x <= self.button_x_end):
-                        # PLAY BUTTON CLICK
-                        if (mouse_pos_y >= gs.SCREEN_HEIGHT/5 and
-                                mouse_pos_y <= gs.SCREEN_HEIGHT/5 + self.b_height):
-                            print("JOGAR")
-                            print(mouse_position)
+            if pygame.mouse.get_pressed()[0]:
+                if (mouse_pos_x >= self.button_x_begin and
+                        mouse_pos_x <= self.button_x_end):
+                    if (mouse_pos_y >= gs.SCREEN_HEIGHT/5 and
+                            mouse_pos_y <= gs.SCREEN_HEIGHT/5 + self.b_height):
+                        return GameStates.PLAYING
 
-                        # INSTRUCTIONS BUTTON CLICK
-                        elif (mouse_pos_y >= 2*gs.SCREEN_HEIGHT/5 and
-                              mouse_pos_y <= 2*gs.SCREEN_HEIGHT/5 + self.b_height):
-                            print("INSTRUCOES")
-                            print(mouse_position)
-                            if self.menu_mode:
-                                self.menu_mode = False
-                                self.background = pygame.image.load(
-                                    '../assets/images/instrucoes.bmp').convert()
-                        # CREDITS BUTTON CLICK
-                        elif (mouse_pos_y >= 3*gs.SCREEN_HEIGHT/5 and
-                              mouse_pos_y <= 3*gs.SCREEN_HEIGHT/5 + self.b_height):
-                            print("CREDITOS")
-                            print(mouse_position)
-                            if self.menu_mode:
-                                self.menu_mode = False
-                                self.background = pygame.image.load(
-                                    '../assets/images/creditos.bmp').convert()
-                        # QUIT BUTTON CLICK
-                        elif (mouse_pos_y >= 4*gs.SCREEN_HEIGHT/5 and
-                              mouse_pos_y <= 4*gs.SCREEN_HEIGHT/5 + self.b_height):
-                            print("SAIR")
-                            print(mouse_position)
-                            pygame.quit()
-                            sys.exit()
+                    # INSTRUCTIONS BUTTON CLICK
+                    elif (mouse_pos_y >= 2*gs.SCREEN_HEIGHT/5 and
+                          mouse_pos_y <= 2*gs.SCREEN_HEIGHT/5 + self.b_height):
+                        if self.menu_mode:
+                            self.menu_mode = False
+                            self.background = pygame.image.load(
+                                os.path.join(gs.ASSETS,
+                                             "images/instrucoes.bmp")).convert()
+                    # CREDITS BUTTON CLICK
+                    elif (mouse_pos_y >= 3*gs.SCREEN_HEIGHT/5 and
+                          mouse_pos_y <= 3*gs.SCREEN_HEIGHT/5 + self.b_height):
+                        if self.menu_mode:
+                            self.menu_mode = False
+                            self.background = pygame.image.load(
+                                os.path.join(gs.ASSETS,
+                                             "images/creditos.bmp")).convert()
+                    # QUIT BUTTON CLICK
+                    elif (mouse_pos_y >= 4*gs.SCREEN_HEIGHT/5 and
+                          mouse_pos_y <= 4*gs.SCREEN_HEIGHT/5 + self.b_height):
+                        pygame.quit()
+                        sys.exit()
 
-                    elif not self.menu_mode:
-                        self.background = pygame.image.load(
-                            '../assets/images/background.bmp').convert()
-                        self.menu_mode = True
+                elif not self.menu_mode:
+                    self.background = pygame.image.load(os.path.join(
+                        gs.ASSETS, "images/background.bmp")).convert()
+                    self.menu_mode = True
 
-                if event.type == pygame.QUIT:
-                    running = False
-                elif event.type == pygame.KEYDOWN:
-
-                    if event.key == pygame.K_ESCAPE:
-                        running = False
-
-            self.draw()
+        self.draw()
 
     def draw(self):
         self.screen.blit(self.background, (0, 0))
         if self.menu_mode:
-            self.set_buttons()
-
-        pygame.display.flip()
+            self.draw_buttons()

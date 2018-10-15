@@ -1,5 +1,7 @@
 import os
 
+from enum import Enum
+
 
 class GameSettings:
     SCREEN_WIDTH = 1024
@@ -27,3 +29,12 @@ class GameSettings:
     BASE_FOLDER = BASE_FOLDER.split("core")[0]
     ASSETS = os.path.join(BASE_FOLDER, "assets")
     MAP = os.path.join(BASE_FOLDER, "map")
+
+
+class GameStates(Enum):
+    START_MENU = 1
+    PAUSED = 2
+    PLAYING = 3
+    INSTRUCTIONS = 4
+    ABOUT = 5
+    QUIT = 6

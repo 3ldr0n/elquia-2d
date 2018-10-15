@@ -2,20 +2,10 @@ import sys
 
 import pygame
 
-from enum import Enum
-
 from player import Player
-from rooms import OpeningRoom
+from menu import Menu
 from gamesettings import GameSettings as gs
-
-
-class GameStates(Enum):
-    START_MENU = 1
-    PAUSED = 2
-    PLAYING = 3
-    INSTRUCTIONS = 4
-    ABOUT = 5
-    QUIT = 6
+from gamesettings import GameStates
 
 
 class Game:
@@ -43,6 +33,7 @@ class Game:
     def run(self):
         player = Player()
         characters_sprites = pygame.sprite.Group(player)
+        menu = Menu(self.screen)
 
         while True:
             self.clock.tick(self.FPS)
@@ -56,6 +47,8 @@ class Game:
                     sys.exit()
 
             if self.state == GameStates.START_MENU:
+                menu.run(events)
+
                 for event in events:
                     if event.type == pygame.KEYDOWN:
                         if event.key == pygame.K_RETURN:
