@@ -13,7 +13,7 @@ class Player(pygame.sprite.Sprite):
         self.width = 32
         self.height = 28
         self.spritesheet = pygame.image.load(
-            os.path.join(gs.ASSETS, "Character Sheet.png")).convert()
+            os.path.join(gs.ASSETS, "Character Sheet.png")).convert_alpha()
         self.set_idle_image(
             gs.SCREEN_BORDER, gs.SCREEN_HEIGHT - gs.SCREEN_BORDER)
 
@@ -39,20 +39,42 @@ class Player(pygame.sprite.Sprite):
             x = self.rect.x
             y = self.rect.y
 
-        # self.image = pygame.Surface((self.width, self.height))
-        # self.image.fill((gs.GREEN))
         self.spritesheet.set_clip(pygame.Rect(32, 0, self.width, self.height))
         self.image = self.spritesheet.subsurface(self.spritesheet.get_clip())
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
 
-    def set_walking_image(self):
-        self.set_idle_image()
-        return
-
+    def set_walking_up_image(self):
         self.spritesheet.set_clip(pygame.Rect(
-            130, 0, self.width, self.height))
+            self.width, self.height+6, self.width, self.height))
+        self.image = self.spritesheet.subsurface(self.spritesheet.get_clip())
+        rect = self.image.get_rect()
+        rect.x = self.rect.x
+        rect.y = self.rect.y
+        self.rect = rect
+
+    def set_walking_down_image(self):
+        self.spritesheet.set_clip(pygame.Rect(
+            self.width, 0, self.width, self.height))
+        self.image = self.spritesheet.subsurface(self.spritesheet.get_clip())
+        rect = self.image.get_rect()
+        rect.x = self.rect.x
+        rect.y = self.rect.y
+        self.rect = rect
+
+    def set_walking_right_image(self):
+        self.spritesheet.set_clip(pygame.Rect(
+            self.width, 2*self.height+2*6, self.width, self.height))
+        self.image = self.spritesheet.subsurface(self.spritesheet.get_clip())
+        rect = self.image.get_rect()
+        rect.x = self.rect.x
+        rect.y = self.rect.y
+        self.rect = rect
+
+    def set_walking_left_image(self):
+        self.spritesheet.set_clip(pygame.Rect(
+            self.width, 3*self.height+3*6, self.width, self.height))
         self.image = self.spritesheet.subsurface(self.spritesheet.get_clip())
         rect = self.image.get_rect()
         rect.x = self.rect.x
@@ -64,7 +86,6 @@ class Player(pygame.sprite.Sprite):
 
         :returns: Life bigger than zero.
         :rtype: bool
-
         """
         return self.hp > 0
 
@@ -89,19 +110,19 @@ class Player(pygame.sprite.Sprite):
         key = pygame.key.get_pressed()
 
         if key[pygame.K_RIGHT]:
-            self.set_walking_image()
+            self.set_walking_right_image()
             self.rect.x += self.speed
 
         if key[pygame.K_LEFT]:
-            self.set_walking_image()
+            self.set_walking_left_image()
             self.rect.x -= self.speed
 
         if key[pygame.K_UP]:
-            self.set_walking_image()
+            self.set_walking_up_image()
             self.rect.y -= self.speed
 
         if key[pygame.K_DOWN]:
-            self.set_walking_image()
+            self.set_walking_down_image()
             self.rect.y += self.speed
 
         if 1 not in key:
