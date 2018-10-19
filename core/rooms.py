@@ -30,15 +30,25 @@ class OpeningRoom(Room):
         super().__init__(Rooms.SECONDING_ROOM, Rooms.SECONDING_ROOM,
                          Rooms.SECONDING_ROOM, Rooms.SECONDING_ROOM,
                          Rooms.OPENING_ROOM)
-        self.image = pygame.image.load(os.path.join(gs.MAP, "opening.png"))
-        self.rect = self.image.get_rect()
+        self.room_map = []
+
+    def load_room(self):
+        map_file = os.path.join(gs.MAP, "opening.txt")
+        with open(map_file, "r") as room:
+            for line in room:
+                self.room_map.append(line)
+
+    def render(self, screen):
+        for line_, line in enumerate(self.room_map):
+            for column_, column in enumerate(line):
+                x = column_ * gs.TILESIZE
+                y = line_ * gs.TILESIZE
+                if column == "1":
+                    pygame.draw.rect(screen, gs.WHITE, (x, y,  32, 32))
 
 
 class SecondingRoom(Room):
 
     def __init__(self):
         super().__init__(Rooms.OPENING_ROOM, Rooms.OPENING_ROOM,
-                         Rooms.OPENING_ROOM, Rooms.OPENING_ROOM,
-                         Rooms.SECONDING_ROOM)
-        self.image = pygame.image.load(os.path.join(gs.MAP, "seconding.png"))
-        self.rect = self.image.get_rect()
+                         Rooms.OPENING_ROOM, Rooms.OPENING_ROOM)

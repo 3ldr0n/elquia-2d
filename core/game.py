@@ -4,6 +4,7 @@ import pygame
 
 from player import Player
 from menu import Menu
+from rooms import OpeningRoom
 from gamesettings import GameSettings as gs
 from gamesettings import GameStates
 
@@ -34,6 +35,11 @@ class Game:
         player = Player()
         characters_sprites = pygame.sprite.Group(player)
         menu = Menu(self.screen)
+        opening_room = OpeningRoom()
+        opening_room.load_room()
+        rooms = {
+            "current_room": opening_room
+        }
 
         while True:
             self.clock.tick(self.FPS)
@@ -54,6 +60,7 @@ class Game:
                         if event.key == pygame.K_RETURN:
                             self.state = GameStates.PLAYING
             elif self.state == GameStates.PLAYING:
+                rooms["current_room"].render(self.screen)
                 characters_sprites.draw(self.screen)
 
                 player.handle_keys()
