@@ -36,7 +36,7 @@ class Game:
         characters_sprites = pygame.sprite.Group(player)
         menu = Menu(self.screen)
         opening_room = OpeningRoom()
-        opening_room.load_room()
+        opening_room.load_map()
         rooms = {
             "current_room": opening_room
         }
