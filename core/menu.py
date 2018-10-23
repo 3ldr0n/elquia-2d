@@ -111,7 +111,6 @@ class Menu:
                     mouse_pos_x <= self.button_x_end):
                 if self.__mouse_over_play(mouse_pos_y):
                     game.state = GameStates.PLAYING
-
                 elif self.__mouse_over_instructions(mouse_pos_y):
                     if self.menu_mode:
                         self.menu_mode = False
