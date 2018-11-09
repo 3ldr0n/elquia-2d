@@ -32,8 +32,12 @@ class Player(pygame.sprite.Sprite):
     def set_idle_image(self, x=None, y=None):
         """Set the player's idle image.
 
-        :param x: x axis position.
-        :param y: y axis position.
+        Parameters
+        ----------
+        x: int
+            x axis position.
+        y: int
+            y axis position.
         """
         if x is None and y is None:
             x = self.rect.x
@@ -84,8 +88,11 @@ class Player(pygame.sprite.Sprite):
     def is_alive(self):
         """Check if user is alive.
 
-        :returns: Life bigger than zero.
-        :rtype: bool
+        Returns
+        -------
+        bool
+            Life bigger than zero.
+
         """
         return self.hp > 0
 

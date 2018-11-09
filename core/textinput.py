@@ -29,7 +29,6 @@ class TextInput(pygame.sprite.Sprite):
     def draw(self, screen):
         pygame.draw.rect(screen, gs.WHITE, self.rect)
         rendered = self.font.render(self.text, True, gs.LIGHT_RED)
-        print(rendered.get_rect().height)
         screen.blit(rendered, (self.x//2, (self.y // 2) +
                                rendered.get_rect().height))
 

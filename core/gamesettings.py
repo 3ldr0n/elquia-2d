@@ -38,3 +38,4 @@ class GameStates(Enum):
     INSTRUCTIONS = 4
     CREDITS = 5
     QUIT = 6
+    SET_NAME = 7

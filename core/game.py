@@ -7,6 +7,7 @@ from menu import Menu
 from rooms import OpeningRoom
 from gamesettings import GameSettings as gs
 from gamesettings import GameStates
+from textinput import TextInput
 
 
 class Game:
@@ -37,6 +38,9 @@ class Game:
         menu = Menu(self.screen)
         opening_room = OpeningRoom()
         opening_room.load_map()
+        inputs = {
+            "name_input": TextInput(0, 0, 550, 120)
+        }
         rooms = {
             "current_room": opening_room
         }
@@ -58,7 +62,15 @@ class Game:
                 for event in events:
                     if event.type == pygame.KEYDOWN:
                         if event.key == pygame.K_RETURN:
-                            self.state = GameStates.PLAYING
+                            self.state = GameStates.SET_NAME
+            elif self.state == GameStates.SET_NAME:
+
+                if inputs["name_input"].update_text(events):
+                    player.set_name(inputs["name_input"].get_input())
+                    self.state = GameStates.PLAYING
+
+                inputs["name_input"].draw(self.screen)
+
             elif self.state == GameStates.PLAYING:
                 rooms["current_room"].render(self.screen)
                 characters_sprites.draw(self.screen)
