@@ -10,7 +10,7 @@ class TextInput(pygame.sprite.Sprite):
         self.y = y
         self.width = width
         self.height = height
-        self.rect = pygame.Rect(x, y, self.width, self.height)
+        self.rect = pygame.Rect(self.x, self.y, self.width, self.height)
         self.font = pygame.font.SysFont(None, self.height//2)
         self.text = ""
 
@@ -29,7 +29,7 @@ class TextInput(pygame.sprite.Sprite):
     def draw(self, screen):
         pygame.draw.rect(screen, gs.WHITE, self.rect)
         rendered = self.font.render(self.text, True, gs.LIGHT_RED)
-        screen.blit(rendered, (self.x//2, (self.y // 2) +
+        screen.blit(rendered, (self.x, (self.y) +
                                rendered.get_rect().height))
 
     def get_input(self):
