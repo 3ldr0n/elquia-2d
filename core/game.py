@@ -41,8 +41,7 @@ class Game:
         name_input = TextInput(
             gs.SCREEN_WIDTH // 2 - (gs.TILESIZE * 18) // 2,
             gs.SCREEN_HEIGHT // 2 - (gs.TILESIZE * 4) // 2,
-            gs.TILESIZE * 18,
-            gs.TILESIZE * 4)
+            18, 4)
         inputs = {
             "name_input": name_input
         }
