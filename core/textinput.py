@@ -8,9 +8,7 @@ class TextInput(pygame.sprite.Sprite):
     def __init__(self, x, y, width, height):
         """Inputs any kind of text on screen.
 
-        Parameters
-        ----------
-        x: int
+        Parameters ---------- x: int
             X axis position of the input bar.
         y: int
             Y axis position of the input bar.

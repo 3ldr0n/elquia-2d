@@ -32,9 +32,32 @@ class Game:
             pygame.draw.line(self.screen, gs.LIGHT_GREY,
                              (0, y), (gs.SCREEN_WIDTH, y))
 
+    def name_input(self, inputs, events):
+        """Creates text input dialogue for the name input.
+
+        Parameters
+        ----------
+        inputs: dict
+            Dict of inputs.
+        events: list
+            Events queue.
+        """
+        input_name_text = "Qual o seu nome?"
+        font = pygame.font.SysFont(None, gs.TILESIZE*5)
+        rendered_font = font.render(input_name_text, True, gs.WHITE)
+        self.screen.blit(
+            rendered_font, (1000 - rendered_font.get_rect().width,
+                            0 + rendered_font.get_rect().height))
+
+        if inputs["name_input"].update_text(events):
+            self.player.set_name(inputs["name_input"].get_input())
+            self.state = GameStates.PLAYING
+
+        inputs["name_input"].draw(self.screen)
+
     def run(self):
-        player = Player()
-        characters_sprites = pygame.sprite.Group(player)
+        self.player = Player()
+        characters_sprites = pygame.sprite.Group(self.player)
         menu = Menu(self.screen)
         opening_room = OpeningRoom()
         opening_room.load_map()
@@ -69,18 +92,14 @@ class Game:
                             self.state = GameStates.SET_NAME
             elif self.state == GameStates.SET_NAME:
 
-                if inputs["name_input"].update_text(events):
-                    player.set_name(inputs["name_input"].get_input())
-                    self.state = GameStates.PLAYING
-
-                inputs["name_input"].draw(self.screen)
+                self.name_input(inputs, events)
 
             elif self.state == GameStates.PLAYING:
                 rooms["current_room"].render(self.screen)
                 characters_sprites.draw(self.screen)
 
-                player.handle_keys()
-                player.check_border()
+                self.player.handle_keys()
+                self.player.check_border()
 
             pygame.event.pump()
             pygame.display.flip()
