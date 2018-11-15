@@ -8,7 +8,7 @@ from gamesettings import GameSettings as gs
 
 
 class Rooms(Enum):
-    OPENING_ROOM = 0
+    OPENING_BEACH_ROOM = 0
     SECOND_ROOM = 1
 
 
@@ -30,16 +30,17 @@ class Room(pygame.sprite.Sprite):
         pass
 
 
-class OpeningRoom(Room):
+class OpeningBeachRoom(Room):
 
     def __init__(self):
         super().__init__(Rooms.SECOND_ROOM, Rooms.SECOND_ROOM,
                          Rooms.SECOND_ROOM, Rooms.SECOND_ROOM,
-                         Rooms.OPENING_ROOM)
+                         Rooms.OPENING_BEACH_ROOM)
+
         self.room_map = []
 
     def load_map(self):
-        map_file = os.path.join(gs.MAP, "opening.txt")
+        map_file = os.path.join(gs.MAP, "opening_beach.txt")
         with open(map_file, "r") as room:
             for line in room:
                 self.room_map.append(line)
@@ -49,13 +50,17 @@ class OpeningRoom(Room):
             for x, column in enumerate(line):
                 rect_x = x * gs.TILESIZE
                 rect_y = y * gs.TILESIZE
-                if column == "1":
-                    pygame.draw.rect(screen, gs.WHITE,
+                if column == "S":
+                    pygame.draw.rect(screen, gs.SAND_YELLOW,
+                                     (rect_x, rect_y,  32, 32))
+                elif column == "W":
+                    pygame.draw.rect(screen, gs.OCEAN_BLUE,
                                      (rect_x, rect_y,  32, 32))
 
 
 class SecondRoom(Room):
 
     def __init__(self):
-        super().__init__(Rooms.OPENING_ROOM, Rooms.OPENING_ROOM,
-                         Rooms.OPENING_ROOM, Rooms.OPENING_ROOM)
+        super().__init__(Rooms.OPENING_BEACH_ROOM, Rooms.OPENING_BEACH_ROOM,
+                         Rooms.OPENING_BEACH_ROOM, Rooms.OPENING_BEACH_ROOM,
+                         Rooms.SECOND_ROOM)

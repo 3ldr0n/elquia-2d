@@ -4,7 +4,7 @@ import pygame
 
 from player import Player
 from menu import Menu
-from rooms import OpeningRoom
+from rooms import OpeningBeachRoom
 from gamesettings import GameSettings as gs
 from gamesettings import GameStates
 from textinput import TextInput
@@ -59,8 +59,8 @@ class Game:
         self.player = Player()
         characters_sprites = pygame.sprite.Group(self.player)
         menu = Menu(self.screen)
-        opening_room = OpeningRoom()
-        opening_room.load_map()
+        opening_beach_room = OpeningBeachRoom()
+        opening_beach_room.load_map()
         name_input = TextInput(
             gs.SCREEN_WIDTH // 2 - (gs.TILESIZE * 18) // 2,
             gs.SCREEN_HEIGHT // 2 - (gs.TILESIZE * 4) // 2,
@@ -69,13 +69,13 @@ class Game:
             "name_input": name_input
         }
         rooms = {
-            "current_room": opening_room
+            "current_room": opening_beach_room,
+            "opening_beach_room": opening_beach_room
         }
 
         while True:
             self.clock.tick(self.FPS)
             self._set_screen()
-            self.draw_grid()
             events = pygame.event.get()
 
             for event in events:

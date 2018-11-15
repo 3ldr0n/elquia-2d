@@ -8,7 +8,9 @@ class TextInput(pygame.sprite.Sprite):
     def __init__(self, x, y, width, height):
         """Inputs any kind of text on screen.
 
-        Parameters ---------- x: int
+        Parameters
+        ----------
+        x: int
             X axis position of the input bar.
         y: int
             Y axis position of the input bar.
@@ -25,7 +27,7 @@ class TextInput(pygame.sprite.Sprite):
         self.height = height * gs.TILESIZE
         self.rect = pygame.Rect(self.x, self.y, self.width, self.height)
         self.font = pygame.font.SysFont(None, self.height//2)
-        self.text = ""
+        self.text = " "
 
     def update_text(self, events):
         """Updates text on key press.
@@ -66,4 +68,4 @@ class TextInput(pygame.sprite.Sprite):
 
     def get_input(self):
         """Returns the text attribute. """
-        return self.text
+        return self.text.strip()
