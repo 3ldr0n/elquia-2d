@@ -55,12 +55,24 @@ class Game:
 
         inputs["name_input"].draw(self.screen)
 
-    def run(self):
-        self.player = Player()
-        characters_sprites = pygame.sprite.Group(self.player)
-        menu = Menu(self.screen)
+    def load_rooms(self):
         opening_beach_room = OpeningBeachRoom()
         opening_beach_room.load_map()
+        rooms = {
+            "current_room": opening_beach_room,
+            "opening_beach_room": opening_beach_room
+        }
+
+        return rooms
+
+    def update_sprites(self):
+        self.tile_group.update()
+        self.characters_sprites.update()
+
+    def run(self):
+        self.player = Player()
+        self.characters_sprites = pygame.sprite.Group(self.player)
+        menu = Menu(self.screen)
         name_input = TextInput(
             gs.SCREEN_WIDTH // 2 - (gs.TILESIZE * 18) // 2,
             gs.SCREEN_HEIGHT // 2 - (gs.TILESIZE * 4) // 2,
@@ -68,10 +80,8 @@ class Game:
         inputs = {
             "name_input": name_input
         }
-        rooms = {
-            "current_room": opening_beach_room,
-            "opening_beach_room": opening_beach_room
-        }
+        rooms = self.load_rooms()
+        self.tile_group = pygame.sprite.Group()
 
         while True:
             self.clock.tick(self.FPS)
@@ -95,8 +105,12 @@ class Game:
                 self.name_input(inputs, events)
 
             elif self.state == GameStates.PLAYING:
-                rooms["current_room"].render(self.screen)
-                characters_sprites.draw(self.screen)
+                rooms["current_room"].render(self.tile_group, self.screen)
+
+                self.update_sprites()
+
+                self.tile_group.draw(self.screen)
+                self.characters_sprites.draw(self.screen)
 
                 self.player.handle_keys()
                 self.player.check_border()

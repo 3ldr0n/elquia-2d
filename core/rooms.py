@@ -5,6 +5,7 @@ from enum import Enum
 import pygame
 
 from gamesettings import GameSettings as gs
+from tiles import Sand, Ocean
 
 
 class Rooms(Enum):
@@ -45,7 +46,7 @@ class OpeningBeachRoom(Room):
             for line in room:
                 self.room_map.append(line)
 
-    def render(self, screen):
+    def render(self, group, screen):
         for y, line in enumerate(self.room_map):
             for x, column in enumerate(line):
                 rect_x = x * gs.TILESIZE
