@@ -112,10 +112,10 @@ class Player(pygame.sprite.Sprite):
 
     def collide_with_tiles(self):
         for tile in self.game.collision_tile_group:
-            if tile.rect.x == self.rect.x and tile.rect.y == self.rect.y:
-                print("colliding")
-            else:
-                print("not colliding")
+            if pygame.sprite.collide_rect(self, tile):
+                return True
+
+        return False
 
     def get_item(self, item):
         self.inventory.append(item)
@@ -127,18 +127,26 @@ class Player(pygame.sprite.Sprite):
         if key[pygame.K_RIGHT]:
             self.set_walking_right_image()
             self.rect.x += self.speed
+            if self.collide_with_tiles():
+                self.rect.x -= self.speed
 
         if key[pygame.K_LEFT]:
             self.set_walking_left_image()
             self.rect.x -= self.speed
+            if self.collide_with_tiles():
+                self.rect.x += self.speed+2
 
         if key[pygame.K_UP]:
             self.set_walking_up_image()
             self.rect.y -= self.speed
+            if self.collide_with_tiles():
+                self.rect.y += self.speed
 
         if key[pygame.K_DOWN]:
             self.set_walking_down_image()
             self.rect.y += self.speed
+            if self.collide_with_tiles():
+                self.rect.y -= self.speed
 
         if 1 not in key:
             self.set_idle_image()
