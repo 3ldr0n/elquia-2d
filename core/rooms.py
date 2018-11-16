@@ -5,7 +5,7 @@ from enum import Enum
 import pygame
 
 from gamesettings import GameSettings as gs
-from tiles import Sand, Ocean, Rock
+from tiles import Sand, Ocean, Rock, Trail
 
 
 class Rooms(Enum):
@@ -56,6 +56,8 @@ class OpeningBeachRoom(Room):
                     Ocean(game, x, y)
                 elif column == "R":
                     Rock(game, x, y)
+                elif column == "T":
+                    Trail(game, x, y)
                 elif column == "P":
                     Sand(game, x, y)
                     if self.player_enter is False:
