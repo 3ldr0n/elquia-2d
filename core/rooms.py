@@ -5,7 +5,7 @@ from enum import Enum
 import pygame
 
 from gamesettings import GameSettings as gs
-from tiles import Sand, Ocean, OceanCollide
+from tiles import Sand, Ocean, Rock
 
 
 class Rooms(Enum):
@@ -23,6 +23,7 @@ class Room(pygame.sprite.Sprite):
         self.west = west
         self.room_map = []
         self._id = _id
+        self.player_enter = False
 
     def load_map(self):
         pass
@@ -46,13 +47,21 @@ class OpeningBeachRoom(Room):
             for line in room:
                 self.room_map.append(line)
 
-    def render(self, game, screen):
+    def render(self, game, player, screen):
         for y, line in enumerate(self.room_map):
             for x, column in enumerate(line):
                 if column == "S":
                     Sand(game, x, y)
                 elif column == "O":
                     Ocean(game, x, y)
+                elif column == "R":
+                    Rock(game, x, y)
+                elif column == "P":
+                    Sand(game, x, y)
+                    if self.player_enter is False:
+                        player.rect.x = x * gs.TILESIZE
+                        player.rect.y = y * gs.TILESIZE
+                        self.player_enter = True
 
 
 class SecondRoom(Room):

@@ -70,6 +70,10 @@ class Game:
         self.characters_sprites.update()
         self.collision_tile_group.update()
 
+    def empty_sprites(self):
+        self.tile_group.empty()
+        self.collision_tile_group.empty()
+
     def run(self):
         self.player = Player(self)
         self.characters_sprites = pygame.sprite.Group(self.player)
@@ -103,11 +107,9 @@ class Game:
                         if event.key == pygame.K_RETURN:
                             self.state = GameStates.SET_NAME
             elif self.state == GameStates.SET_NAME:
-
                 self.name_input(inputs, events)
-
             elif self.state == GameStates.PLAYING:
-                rooms["current_room"].render(self, self.screen)
+                rooms["current_room"].render(self, self.player, self.screen)
 
                 self.update_sprites()
 
@@ -117,8 +119,7 @@ class Game:
                 self.player.handle_keys()
                 self.player.collide_with_tiles()
 
-                self.tile_group.empty()
-                self.collision_tile_group.empty()
+                self.empty_sprites()
 
             pygame.event.pump()
             pygame.display.flip()

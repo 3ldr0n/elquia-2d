@@ -26,6 +26,7 @@ class GameSettings:
     BACKGROUND = BLACK
     SAND_YELLOW = (237, 201, 175)
     OCEAN_BLUE = (79, 66, 181)
+    ROCK = (90, 77, 65)
 
     BASE_FOLDER = os.path.dirname(os.path.abspath(__file__))
     BASE_FOLDER = BASE_FOLDER.split("core")[0]

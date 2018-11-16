@@ -18,6 +18,21 @@ class Sand(pygame.sprite.Sprite):
         self.rect.y = self.y * gs.TILESIZE
 
 
+class Rock(pygame.sprite.Sprite):
+
+    def __init__(self, game, x, y):
+        self.groups = game.tile_group, game.collision_tile_group
+        super().__init__(self.groups)
+        self.image = pygame.Surface((gs.TILESIZE, gs.TILESIZE)).convert_alpha()
+        self.image.fill(gs.ROCK)
+        self.rect = self.image.get_rect()
+        self.x = x
+        self.x = x
+        self.y = y
+        self.rect.x = self.x * gs.TILESIZE
+        self.rect.y = self.y * gs.TILESIZE
+
+
 class Ocean(pygame.sprite.Sprite):
 
     def __init__(self, game, x, y):
