@@ -5,7 +5,7 @@ from enum import Enum
 import pygame
 
 from gamesettings import GameSettings as gs
-from tiles import Sand, Ocean
+from tiles import Sand, Ocean, OceanCollide
 
 
 class Rooms(Enum):
@@ -46,13 +46,13 @@ class OpeningBeachRoom(Room):
             for line in room:
                 self.room_map.append(line)
 
-    def render(self, group, screen):
+    def render(self, game, screen):
         for y, line in enumerate(self.room_map):
             for x, column in enumerate(line):
                 if column == "S":
-                    Sand(group, x, y)
-                elif column == "W":
-                    Ocean(group, x, y)
+                    Sand(game, x, y)
+                elif column == "O":
+                    Ocean(game, x, y)
 
 
 class SecondRoom(Room):

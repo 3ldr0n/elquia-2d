@@ -8,8 +8,9 @@ from gamesettings import GameSettings as gs
 
 class Player(pygame.sprite.Sprite):
 
-    def __init__(self):
+    def __init__(self, game):
         super().__init__()
+        self.game = game
         self.width = 32
         self.height = 28
         self.spritesheet = pygame.image.load(
@@ -108,6 +109,13 @@ class Player(pygame.sprite.Sprite):
 
         if self.rect.y + self.height > gs.SCREEN_HEIGHT - gs.SCREEN_BORDER:
             self.rect.y = gs.SCREEN_HEIGHT - self.height - gs.SCREEN_BORDER
+
+    def collide_with_tiles(self):
+        for tile in self.game.collision_tile_group:
+            if tile.rect.x == self.rect.x and tile.rect.y == self.rect.y:
+                print("colliding")
+            else:
+                print("not colliding")
 
     def get_item(self, item):
         self.inventory.append(item)

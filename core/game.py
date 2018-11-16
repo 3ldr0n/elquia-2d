@@ -68,9 +68,10 @@ class Game:
     def update_sprites(self):
         self.tile_group.update()
         self.characters_sprites.update()
+        self.collision_tile_group.update()
 
     def run(self):
-        self.player = Player()
+        self.player = Player(self)
         self.characters_sprites = pygame.sprite.Group(self.player)
         menu = Menu(self.screen)
         name_input = TextInput(
@@ -82,6 +83,7 @@ class Game:
         }
         rooms = self.load_rooms()
         self.tile_group = pygame.sprite.Group()
+        self.collision_tile_group = pygame.sprite.Group()
 
         while True:
             self.clock.tick(self.FPS)
@@ -105,7 +107,7 @@ class Game:
                 self.name_input(inputs, events)
 
             elif self.state == GameStates.PLAYING:
-                rooms["current_room"].render(self.tile_group, self.screen)
+                rooms["current_room"].render(self, self.screen)
 
                 self.update_sprites()
 
@@ -113,9 +115,10 @@ class Game:
                 self.characters_sprites.draw(self.screen)
 
                 self.player.handle_keys()
-                self.player.check_border()
+                self.player.collide_with_tiles()
 
                 self.tile_group.empty()
+                self.collision_tile_group.empty()
 
             pygame.event.pump()
             pygame.display.flip()
