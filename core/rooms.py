@@ -28,7 +28,7 @@ class Room(pygame.sprite.Sprite):
     def load_map(self):
         pass
 
-    def render(self, screen):
+    def render(self, game, player, screen):
         pass
 
 
