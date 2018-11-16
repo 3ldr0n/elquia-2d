@@ -49,14 +49,10 @@ class OpeningBeachRoom(Room):
     def render(self, group, screen):
         for y, line in enumerate(self.room_map):
             for x, column in enumerate(line):
-                rect_x = x * gs.TILESIZE
-                rect_y = y * gs.TILESIZE
                 if column == "S":
-                    pygame.draw.rect(screen, gs.SAND_YELLOW,
-                                     (rect_x, rect_y,  32, 32))
+                    Sand(group, x, y)
                 elif column == "W":
-                    pygame.draw.rect(screen, gs.OCEAN_BLUE,
-                                     (rect_x, rect_y,  32, 32))
+                    Ocean(group, x, y)
 
 
 class SecondRoom(Room):

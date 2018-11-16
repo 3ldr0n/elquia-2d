@@ -115,5 +115,7 @@ class Game:
                 self.player.handle_keys()
                 self.player.check_border()
 
+                self.tile_group.empty()
+
             pygame.event.pump()
             pygame.display.flip()
