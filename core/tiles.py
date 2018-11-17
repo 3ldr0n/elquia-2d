@@ -5,11 +5,32 @@ from gamesettings import GameSettings as gs
 
 class Sand(pygame.sprite.Sprite):
 
-    def __init__(self, game, x, y):
-        self.groups = game.tile_group
+    def __init__(self, game, x, y, passage):
+        if passage:
+            self.groups = game.tile_group, game.trespassing_tile_group
+        else:
+            self.groups = game.tile_group
         super().__init__(self.groups)
         self.image = pygame.Surface((gs.TILESIZE, gs.TILESIZE)).convert_alpha()
         self.image.fill(gs.SAND_YELLOW)
+        self.rect = self.image.get_rect()
+        self.x = x
+        self.x = x
+        self.y = y
+        self.rect.x = self.x * gs.TILESIZE
+        self.rect.y = self.y * gs.TILESIZE
+
+
+class Grass(pygame.sprite.Sprite):
+
+    def __init__(self, game, x, y, passage):
+        if passage:
+            self.groups = game.tile_group, game.trespassing_tile_group
+        else:
+            self.groups = game.tile_group
+        super().__init__(self.groups)
+        self.image = pygame.Surface((gs.TILESIZE, gs.TILESIZE)).convert_alpha()
+        self.image.fill(gs.GRASS_GREEN)
         self.rect = self.image.get_rect()
         self.x = x
         self.x = x
@@ -35,8 +56,11 @@ class Rock(pygame.sprite.Sprite):
 
 class Trail(pygame.sprite.Sprite):
 
-    def __init__(self, game, x, y):
-        self.groups = game.tile_group
+    def __init__(self, game, x, y, passage):
+        if passage:
+            self.groups = game.tile_group, game.trespassing_tile_group
+        else:
+            self.groups = game.tile_group
         super().__init__(self.groups)
         self.image = pygame.Surface((gs.TILESIZE, gs.TILESIZE)).convert_alpha()
         self.image.fill(gs.LIGHT_BROWN)
@@ -69,20 +93,6 @@ class OceanCollide(pygame.sprite.Sprite):
         super().__init__(self.groups)
         self.image = pygame.Surface((gs.TILESIZE, gs.TILESIZE)).convert_alpha()
         self.image.fill(gs.OCEAN_BLUE)
-        self.rect = self.image.get_rect()
-        self.x = x
-        self.y = y
-        self.rect.x = self.x * gs.TILESIZE
-        self.rect.y = self.y * gs.TILESIZE
-
-
-class Grass(pygame.sprite.Sprite):
-
-    def __init__(self, group, x, y):
-        self.group = group
-        super().__init__(self.group)
-        self.image = pygame.Surface((gs.TILESIZE, gs.TILESIZE))
-        self.image.fill(gs.WHITE)
         self.rect = self.image.get_rect()
         self.x = x
         self.y = y

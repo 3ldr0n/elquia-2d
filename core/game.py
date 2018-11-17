@@ -4,7 +4,8 @@ import pygame
 
 from player import Player
 from menu import Menu
-from rooms import OpeningBeachRoom
+from music import Music
+from rooms import OpeningBeachRoom, FollowingBeach
 from gamesettings import GameSettings as gs
 from gamesettings import GameStates
 from textinput import TextInput
@@ -58,9 +59,12 @@ class Game:
     def load_rooms(self):
         opening_beach_room = OpeningBeachRoom()
         opening_beach_room.load_map()
+        following_beach_room = FollowingBeach()
+        following_beach_room.load_map()
         rooms = {
             "current_room": opening_beach_room,
-            "opening_beach_room": opening_beach_room
+            "opening_beach_room": opening_beach_room,
+            "following_beach_room": following_beach_room
         }
 
         return rooms
@@ -73,6 +77,7 @@ class Game:
     def empty_sprites(self):
         self.tile_group.empty()
         self.collision_tile_group.empty()
+        self.trespassing_tile_group.empty()
 
     def run(self):
         self.player = Player(self)
@@ -88,6 +93,8 @@ class Game:
         rooms = self.load_rooms()
         self.tile_group = pygame.sprite.Group()
         self.collision_tile_group = pygame.sprite.Group()
+        self.trespassing_tile_group = pygame.sprite.Group()
+        music = Music()
 
         while True:
             self.clock.tick(self.FPS)
@@ -100,6 +107,8 @@ class Game:
                     sys.exit()
 
             if self.state == GameStates.START_MENU:
+                # if not pygame.mixer.music.get_busy():
+                #     music.menu_song()
                 menu.run(self)
 
                 for event in events:
@@ -109,6 +118,8 @@ class Game:
             elif self.state == GameStates.SET_NAME:
                 self.name_input(inputs, events)
             elif self.state == GameStates.PLAYING:
+                # if not pygame.mixer.music.get_busy():
+                #     music.background_song()
                 rooms["current_room"].render(self, self.player, self.screen)
 
                 self.update_sprites()
@@ -118,6 +129,10 @@ class Game:
 
                 self.player.handle_keys()
                 self.player.collide_with_tiles()
+                print(self.trespassing_tile_group)
+
+                if self.player.pass_to_other_room():
+                    rooms["current_room"] = rooms["following_beach_room"]
 
                 self.empty_sprites()
 

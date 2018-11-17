@@ -24,8 +24,11 @@ class Player(pygame.sprite.Sprite):
         self.mp = 100
         self.maxmp = 100
         self.inventory = []
-        self.current_room = Rooms.OPENING_BEACH_ROOM
+        self.current_room = None
         self.speed = gs.TILESIZE / 5
+
+    def set_current_room(self, room):
+        self.current_room = room
 
     def set_name(self, name):
         self.name = name
@@ -112,6 +115,13 @@ class Player(pygame.sprite.Sprite):
 
     def collide_with_tiles(self):
         for tile in self.game.collision_tile_group:
+            if pygame.sprite.collide_rect(self, tile):
+                return True
+
+        return False
+
+    def pass_to_other_room(self):
+        for tile in self.game.trespassing_tile_group:
             if pygame.sprite.collide_rect(self, tile):
                 return True
 
