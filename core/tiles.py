@@ -11,8 +11,7 @@ class Sand(pygame.sprite.Sprite):
         else:
             self.groups = game.tile_group
         super().__init__(self.groups)
-        self.image = pygame.Surface((gs.TILESIZE, gs.TILESIZE)).convert_alpha()
-        self.image.fill(gs.SAND_YELLOW)
+        self.image = None
         self.rect = self.image.get_rect()
         self.x = x
         self.x = x
