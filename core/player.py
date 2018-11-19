@@ -17,6 +17,15 @@ class Player(pygame.sprite.Sprite):
         self.set_idle_image(
             gs.SCREEN_BORDER, gs.SCREEN_HEIGHT - gs.SCREEN_BORDER)
 
+        self.walk_up_images = self.__set_walk_up_images()
+        self.walk_up_index = 0
+        self.walk_down_images = self.__set_walk_down_images()
+        self.walk_down_index = 0
+        self.walk_right_images = self.__set_walk_right_images()
+        self.walk_right_index = 0
+        self.walk_left_images = self.__set_walk_left_images()
+        self.walk_left_index = 0
+
         self.name = None
         self.hp = 100
         self.maxhp = 100
@@ -25,6 +34,54 @@ class Player(pygame.sprite.Sprite):
         self.inventory = []
         self.current_room = None
         self.speed = gs.TILESIZE / 5
+
+    def __set_walk_up_images(self):
+        walk_up_images = []
+
+        for i in range(9):
+            self.spritesheet.set_clip(pygame.Rect(
+                16+i*self.width, 8*self.height, self.width, self.height)),
+            walk_up_image = self.spritesheet.subsurface(
+                self.spritesheet.get_clip())
+            walk_up_images.append(walk_up_image)
+
+        return walk_up_images
+
+    def __set_walk_down_images(self):
+        walk_down_images = []
+
+        for i in range(9):
+            self.spritesheet.set_clip(pygame.Rect(
+                16+i*self.width, 10*self.height, self.width, self.height)),
+            walk_down_image = self.spritesheet.subsurface(
+                self.spritesheet.get_clip())
+            walk_down_images.append(walk_down_image)
+
+        return walk_down_images
+
+    def __set_walk_right_images(self):
+        walk_right_images = []
+
+        for i in range(9):
+            self.spritesheet.set_clip(pygame.Rect(
+                16+i*self.width, 11*self.height, self.width, self.height)),
+            walk_right_image = self.spritesheet.subsurface(
+                self.spritesheet.get_clip())
+            walk_right_images.append(walk_right_image)
+
+        return walk_right_images
+
+    def __set_walk_left_images(self):
+        walk_left_images = []
+
+        for i in range(9):
+            self.spritesheet.set_clip(pygame.Rect(
+                16+i*self.width, 9*self.height, self.width, self.height)),
+            walk_left_image = self.spritesheet.subsurface(
+                self.spritesheet.get_clip())
+            walk_left_images.append(walk_left_image)
+
+        return walk_left_images
 
     def set_current_room(self, room):
         self.current_room = room
@@ -54,40 +111,56 @@ class Player(pygame.sprite.Sprite):
         self.rect.y = y
 
     def set_walking_up_image(self):
-        self.spritesheet.set_clip(pygame.Rect(
-            16, 8*self.height, self.width, self.height))
-        self.image = self.spritesheet.subsurface(self.spritesheet.get_clip())
+        self.image = self.walk_up_images[self.walk_up_index]
         rect = self.image.get_rect()
         rect.x = self.rect.x
         rect.y = self.rect.y
         self.rect = rect
 
     def set_walking_down_image(self):
-        self.spritesheet.set_clip(pygame.Rect(
-            16, 10*self.height, self.width, self.height))
-        self.image = self.spritesheet.subsurface(self.spritesheet.get_clip())
+        self.image = self.walk_down_images[self.walk_down_index]
         rect = self.image.get_rect()
         rect.x = self.rect.x
         rect.y = self.rect.y
         self.rect = rect
 
     def set_walking_right_image(self):
-        self.spritesheet.set_clip(pygame.Rect(
-            16, 11*self.height, self.width, self.height))
-        self.image = self.spritesheet.subsurface(self.spritesheet.get_clip())
+        self.image = self.walk_right_images[self.walk_right_index]
         rect = self.image.get_rect()
         rect.x = self.rect.x
         rect.y = self.rect.y
         self.rect = rect
 
     def set_walking_left_image(self):
-        self.spritesheet.set_clip(pygame.Rect(
-            16, 9*self.height, self.width, self.height))
-        self.image = self.spritesheet.subsurface(self.spritesheet.get_clip())
+        self.image = self.walk_left_images[self.walk_left_index]
         rect = self.image.get_rect()
         rect.x = self.rect.x
         rect.y = self.rect.y
         self.rect = rect
+
+    def __increment_walk_up_index(self):
+        if self.walk_up_index + 1 > len(self.walk_up_images) - 1:
+            self.walk_up_index = 0
+        else:
+            self.walk_up_index += 1
+
+    def __increment_walk_down_index(self):
+        if self.walk_down_index + 1 > len(self.walk_down_images) - 1:
+            self.walk_down_index = 0
+        else:
+            self.walk_down_index += 1
+
+    def __increment_walk_right_index(self):
+        if self.walk_right_index + 1 > len(self.walk_right_images) - 1:
+            self.walk_right_index = 0
+        else:
+            self.walk_right_index += 1
+
+    def __increment_walk_left_index(self):
+        if self.walk_left_index + 1 > len(self.walk_left_images) - 1:
+            self.walk_left_index = 0
+        else:
+            self.walk_left_index += 1
 
     def is_alive(self):
         """Check if user is alive.
@@ -135,24 +208,28 @@ class Player(pygame.sprite.Sprite):
         key = pygame.key.get_pressed()
 
         if key[pygame.K_RIGHT]:
+            self.__increment_walk_right_index()
             self.set_walking_right_image()
             self.rect.x += self.speed
             if self.collide_with_tiles():
                 self.rect.x -= self.speed
 
         if key[pygame.K_LEFT]:
+            self.__increment_walk_left_index()
             self.set_walking_left_image()
             self.rect.x -= self.speed
             if self.collide_with_tiles():
                 self.rect.x += self.speed+2
 
         if key[pygame.K_UP]:
+            self.__increment_walk_up_index()
             self.set_walking_up_image()
             self.rect.y -= self.speed
             if self.collide_with_tiles():
                 self.rect.y += self.speed
 
         if key[pygame.K_DOWN]:
+            self.__increment_walk_down_index()
             self.set_walking_down_image()
             self.rect.y += self.speed
             if self.collide_with_tiles():
