@@ -14,17 +14,18 @@ class Player(pygame.sprite.Sprite):
         self.height = 64
         self.spritesheet = pygame.image.load(
             os.path.join(gs.ASSETS, "characters/main.png")).convert_alpha()
+
+        self.__walk_up_images = self.__set_walk_up_images()
+        self.__walk_up_index = 0
+        self.__walk_down_images = self.__set_walk_down_images()
+        self.__walk_down_index = 0
+        self.__walk_right_images = self.__set_walk_right_images()
+        self.__walk_right_index = 0
+        self.__walk_left_images = self.__set_walk_left_images()
+        self.__walk_left_index = 0
+
         self.set_idle_image(
             gs.SCREEN_BORDER, gs.SCREEN_HEIGHT - gs.SCREEN_BORDER)
-
-        self.walk_up_images = self.__set_walk_up_images()
-        self.walk_up_index = 0
-        self.walk_down_images = self.__set_walk_down_images()
-        self.walk_down_index = 0
-        self.walk_right_images = self.__set_walk_right_images()
-        self.walk_right_index = 0
-        self.walk_left_images = self.__set_walk_left_images()
-        self.walk_left_index = 0
 
         self.name = None
         self.hp = 100
@@ -103,64 +104,62 @@ class Player(pygame.sprite.Sprite):
             x = self.rect.x
             y = self.rect.y
 
-        self.spritesheet.set_clip(pygame.Rect(
-            16, 10*self.height, self.width, self.height))
-        self.image = self.spritesheet.subsurface(self.spritesheet.get_clip())
+        self.image = self.__walk_down_images[0]
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
 
     def set_walking_up_image(self):
-        self.image = self.walk_up_images[self.walk_up_index]
+        self.image = self.__walk_up_images[self.__walk_up_index]
         rect = self.image.get_rect()
         rect.x = self.rect.x
         rect.y = self.rect.y
         self.rect = rect
 
     def set_walking_down_image(self):
-        self.image = self.walk_down_images[self.walk_down_index]
+        self.image = self.__walk_down_images[self.__walk_down_index]
         rect = self.image.get_rect()
         rect.x = self.rect.x
         rect.y = self.rect.y
         self.rect = rect
 
     def set_walking_right_image(self):
-        self.image = self.walk_right_images[self.walk_right_index]
+        self.image = self.__walk_right_images[self.__walk_right_index]
         rect = self.image.get_rect()
         rect.x = self.rect.x
         rect.y = self.rect.y
         self.rect = rect
 
     def set_walking_left_image(self):
-        self.image = self.walk_left_images[self.walk_left_index]
+        self.image = self.__walk_left_images[self.__walk_left_index]
         rect = self.image.get_rect()
         rect.x = self.rect.x
         rect.y = self.rect.y
         self.rect = rect
 
     def __increment_walk_up_index(self):
-        if self.walk_up_index + 1 > len(self.walk_up_images) - 1:
-            self.walk_up_index = 0
+        if self.__walk_up_index + 1 > len(self.__walk_up_images) - 1:
+            self.__walk_up_index = 0
         else:
-            self.walk_up_index += 1
+            self.__walk_up_index += 1
 
     def __increment_walk_down_index(self):
-        if self.walk_down_index + 1 > len(self.walk_down_images) - 1:
-            self.walk_down_index = 0
+        if self.__walk_down_index + 1 > len(self.__walk_down_images) - 1:
+            self.__walk_down_index = 0
         else:
-            self.walk_down_index += 1
+            self.__walk_down_index += 1
 
     def __increment_walk_right_index(self):
-        if self.walk_right_index + 1 > len(self.walk_right_images) - 1:
-            self.walk_right_index = 0
+        if self.__walk_right_index + 1 > len(self.__walk_right_images) - 1:
+            self.__walk_right_index = 0
         else:
-            self.walk_right_index += 1
+            self.__walk_right_index += 1
 
     def __increment_walk_left_index(self):
-        if self.walk_left_index + 1 > len(self.walk_left_images) - 1:
-            self.walk_left_index = 0
+        if self.__walk_left_index + 1 > len(self.__walk_left_images) - 1:
+            self.__walk_left_index = 0
         else:
-            self.walk_left_index += 1
+            self.__walk_left_index += 1
 
     def is_alive(self):
         """Check if user is alive.
