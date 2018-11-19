@@ -2,7 +2,6 @@ import os
 
 import pygame
 
-from rooms import Rooms
 from gamesettings import GameSettings as gs
 
 
@@ -47,7 +46,8 @@ class Player(pygame.sprite.Sprite):
             x = self.rect.x
             y = self.rect.y
 
-        self.spritesheet.set_clip(pygame.Rect(32, 0, self.width, self.height))
+        self.spritesheet.set_clip(pygame.Rect(
+            self.width, 0, self.width, self.height+6))
         self.image = self.spritesheet.subsurface(self.spritesheet.get_clip())
         self.rect = self.image.get_rect()
         self.rect.x = x
@@ -64,7 +64,7 @@ class Player(pygame.sprite.Sprite):
 
     def set_walking_down_image(self):
         self.spritesheet.set_clip(pygame.Rect(
-            self.width, 0, self.width, self.height))
+            self.width, 0, self.width, self.height+6))
         self.image = self.spritesheet.subsurface(self.spritesheet.get_clip())
         rect = self.image.get_rect()
         rect.x = self.rect.x
@@ -73,7 +73,7 @@ class Player(pygame.sprite.Sprite):
 
     def set_walking_right_image(self):
         self.spritesheet.set_clip(pygame.Rect(
-            self.width, 2*self.height+2*6, self.width, self.height))
+            self.width, 2*self.height+2*5, self.width, self.height))
         self.image = self.spritesheet.subsurface(self.spritesheet.get_clip())
         rect = self.image.get_rect()
         rect.x = self.rect.x
@@ -82,7 +82,7 @@ class Player(pygame.sprite.Sprite):
 
     def set_walking_left_image(self):
         self.spritesheet.set_clip(pygame.Rect(
-            self.width, 3*self.height+3*6, self.width, self.height))
+            self.width, 3*self.height+3*4, self.width, self.height+6))
         self.image = self.spritesheet.subsurface(self.spritesheet.get_clip())
         rect = self.image.get_rect()
         rect.x = self.rect.x
