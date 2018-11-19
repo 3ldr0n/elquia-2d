@@ -24,14 +24,12 @@ class Player(pygame.sprite.Sprite):
         self.__walk_left_images = self.__set_walk_left_images()
         self.__walk_left_index = 0
 
-        self.set_idle_image(
-            gs.SCREEN_BORDER, gs.SCREEN_HEIGHT - gs.SCREEN_BORDER)
+        # Base values used to start the sprite rect object.
+        self.set_idle_image(0, 0)
 
         self.name = None
         self.hp = 100
         self.maxhp = 100
-        self.mp = 100
-        self.maxmp = 100
         self.inventory = []
         self.current_room = None
         self.speed = gs.TILESIZE / 5
@@ -146,40 +144,32 @@ class Player(pygame.sprite.Sprite):
         high the methods sets the index back to zero.
 
         """
-        if self.__walk_up_index + 1 > len(self.__walk_up_images) - 1:
-            self.__walk_up_index = 0
-        else:
-            self.__walk_up_index += 1
+        self.__walk_up_index = (
+            self.__walk_up_index + 1) % len(self.__walk_up_images)
 
     def __increment_walk_down_index(self):
         """Increments correctly the animation index, if the value is too
         high the methods sets the index back to zero.
 
         """
-        if self.__walk_down_index + 1 > len(self.__walk_down_images) - 1:
-            self.__walk_down_index = 0
-        else:
-            self.__walk_down_index += 1
+        self.__walk_down_index = (
+            self.__walk_down_index + 1) % len(self.__walk_down_images)
 
     def __increment_walk_right_index(self):
         """Increments correctly the animation index, if the value is too
         high the methods sets the index back to zero.
 
         """
-        if self.__walk_right_index + 1 > len(self.__walk_right_images) - 1:
-            self.__walk_right_index = 0
-        else:
-            self.__walk_right_index += 1
+        self.__walk_right_index = (
+            self.__walk_right_index + 1) % len(self.__walk_right_images)
 
     def __increment_walk_left_index(self):
         """Increments correctly the animation index, if the value is too
         high the methods sets the index back to zero.
 
         """
-        if self.__walk_left_index + 1 > len(self.__walk_left_images) - 1:
-            self.__walk_left_index = 0
-        else:
-            self.__walk_left_index += 1
+        self.__walk_left_index = (
+            self.__walk_left_index + 1) % len(self.__walk_left_images)
 
     def is_alive(self):
         """Check if user is alive.
@@ -226,7 +216,7 @@ class Player(pygame.sprite.Sprite):
     def get_item(self, item):
         self.inventory.append(item)
 
-    def handle_keys(self):
+    def update(self):
         """Handles user movement. """
         key = pygame.key.get_pressed()
 

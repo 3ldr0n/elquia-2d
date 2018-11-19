@@ -120,8 +120,7 @@ class Game:
                 self.tile_group.draw(self.screen)
                 self.characters_sprites.draw(self.screen)
 
-                self.player.collide_with_tiles()
-                self.player.handle_keys()
+                self.player.update()
 
                 self.empty_sprites()
 
