@@ -37,6 +37,7 @@ class Player(pygame.sprite.Sprite):
         self.speed = gs.TILESIZE / 5
 
     def __set_walk_up_images(self):
+        """Cuts all the necessary images for the walking up animation. """
         walk_up_images = []
 
         for i in range(9):
@@ -49,6 +50,7 @@ class Player(pygame.sprite.Sprite):
         return walk_up_images
 
     def __set_walk_down_images(self):
+        """Cuts all the necessary images for the walking down animation. """
         walk_down_images = []
 
         for i in range(9):
@@ -61,6 +63,7 @@ class Player(pygame.sprite.Sprite):
         return walk_down_images
 
     def __set_walk_right_images(self):
+        """Cuts all the necessary images for the walking right animation. """
         walk_right_images = []
 
         for i in range(9):
@@ -73,6 +76,7 @@ class Player(pygame.sprite.Sprite):
         return walk_right_images
 
     def __set_walk_left_images(self):
+        """Cuts all the necessary images for the walking left animation. """
         walk_left_images = []
 
         for i in range(9):
@@ -138,24 +142,40 @@ class Player(pygame.sprite.Sprite):
         self.rect = rect
 
     def __increment_walk_up_index(self):
+        """Increments correctly the animation index, if the value is too
+        high the methods sets the index back to zero.
+
+        """
         if self.__walk_up_index + 1 > len(self.__walk_up_images) - 1:
             self.__walk_up_index = 0
         else:
             self.__walk_up_index += 1
 
     def __increment_walk_down_index(self):
+        """Increments correctly the animation index, if the value is too
+        high the methods sets the index back to zero.
+
+        """
         if self.__walk_down_index + 1 > len(self.__walk_down_images) - 1:
             self.__walk_down_index = 0
         else:
             self.__walk_down_index += 1
 
     def __increment_walk_right_index(self):
+        """Increments correctly the animation index, if the value is too
+        high the methods sets the index back to zero.
+
+        """
         if self.__walk_right_index + 1 > len(self.__walk_right_images) - 1:
             self.__walk_right_index = 0
         else:
             self.__walk_right_index += 1
 
     def __increment_walk_left_index(self):
+        """Increments correctly the animation index, if the value is too
+        high the methods sets the index back to zero.
+
+        """
         if self.__walk_left_index + 1 > len(self.__walk_left_images) - 1:
             self.__walk_left_index = 0
         else:
@@ -186,6 +206,10 @@ class Player(pygame.sprite.Sprite):
             self.rect.y = gs.SCREEN_HEIGHT - self.height - gs.SCREEN_BORDER
 
     def collide_with_tiles(self):
+        """Check if the user is colliding with any of the sprites loaded in the
+        collision tiles group.
+
+        """
         for tile in self.game.collision_tile_group:
             if pygame.sprite.collide_rect(self, tile):
                 return True
