@@ -117,17 +117,11 @@ class Game:
             elif self.state == GameStates.PLAYING:
                 rooms["current_room"].render(self, self.player, self.screen)
 
-                self.update_sprites()
-
                 self.tile_group.draw(self.screen)
                 self.characters_sprites.draw(self.screen)
 
-                self.player.handle_keys()
                 self.player.collide_with_tiles()
-                print(self.trespassing_tile_group)
-
-                if self.player.pass_to_other_room():
-                    rooms["current_room"] = rooms["following_beach_room"]
+                self.player.handle_keys()
 
                 self.empty_sprites()
 
