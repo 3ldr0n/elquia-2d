@@ -11,3 +11,12 @@ class Enemy(pygame.sprite.Sprite):
         self.damage = damage
         self.items = items
         self.spritesheet = pygame.image.load(os.path.join(gs.ASSETS, image))
+
+    def render(self, screen):
+        pass
+
+
+class Bat(Enemy):
+
+    def __init__(self):
+        pass

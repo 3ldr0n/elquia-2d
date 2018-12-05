@@ -94,7 +94,6 @@ class Game:
         self.tile_group = pygame.sprite.Group()
         self.collision_tile_group = pygame.sprite.Group()
         self.trespassing_tile_group = pygame.sprite.Group()
-        music = Music()
 
         while True:
             self.clock.tick(self.FPS)
@@ -107,8 +106,6 @@ class Game:
                     sys.exit()
 
             if self.state == GameStates.START_MENU:
-                # if not pygame.mixer.music.get_busy():
-                #     music.menu_song()
                 menu.run(self)
 
                 for event in events:
@@ -118,21 +115,12 @@ class Game:
             elif self.state == GameStates.SET_NAME:
                 self.name_input(inputs, events)
             elif self.state == GameStates.PLAYING:
-                # if not pygame.mixer.music.get_busy():
-                #     music.background_song()
                 rooms["current_room"].render(self, self.player, self.screen)
-
-                self.update_sprites()
 
                 self.tile_group.draw(self.screen)
                 self.characters_sprites.draw(self.screen)
 
-                self.player.handle_keys()
-                self.player.collide_with_tiles()
-                print(self.trespassing_tile_group)
-
-                if self.player.pass_to_other_room():
-                    rooms["current_room"] = rooms["following_beach_room"]
+                self.player.update()
 
                 self.empty_sprites()
 
